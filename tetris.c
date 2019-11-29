@@ -421,39 +421,49 @@ void countScore(void)
 	scoreLevel();
 }
 
-/* 1~10까지 행의 열 전체가 1로되면 블록사라짐.
-사라지면 array_down함수 실행 */
+/*한 line이 다 차면 해당 라인을 지운다 */
+void ClearLine(int line)//column에는 삭제할 line의 y좌표가 전달됨.
+{
+	int x;
+	for (x = 1; x < BOARD_WIDTH + 1; x++)
+	{
+		//board 배열의 값을 콘솔로 대응시키기 위해 board 배열의 index를 콘솔 좌표로 변환
+		setCursor(x * 2 + BOARD_X, line + BOARD_Y);
+		printf("  ");//블록이 x좌표 2칸을 차지하므로 공백 2칸으로 대체
+	}
+}
 
-void control(void)
+/*clear된 line을 지우고 갱신 */
+void UpdateLine(int line) {
+	ClearLine(line);
+	BoardArrDown(line);//clear된 line을 삭제하므로 윗 라인들을 아래로 내림.
+	ShowUpdatedBoard();
+}
+
+/* 1~10까지 행의 열 전체가 1로되면 블록사라짐.사라지면 UpdateLine함수 실행 */
+void CheckLine(void)
 {
 	int i;
 	int x, y;
-	int z = 0;
+	int iter = 0;
 	//19행부터 시작해서 1행까지 반복
-	for (y = 19; y >= 1; y--)
+	for (y = BOARD_HEIGHT - 1; y >= 1; y--) //아래에서 위로 한칸씩 검사 y=1은 보드판
 	{
-		//행기준으로 4번 반복
-		for (z = 0; z < 4; z++)
+		//한 행당 4번 반복=>내려온 라인을 검사하기 위해.(한번에 사라질 수 있는 라인 수는 최대 4라인이므로)
+		for (iter = 0; iter < 4; iter++)
 		{
 			i = 0;
-			//1열부터 10열까지 증가
-			for (x = 1; x < 11; x++)
+			//board[][x]에 블록을 의미하는 값이 저장되어있다.
+			for (x = 1; x <= BOARD_WIDTH; x++)//x=0은 보드판
 			{
 				//행기준
 				if (board[y][x] == 1)
 				{
 					i++;
-					//1이 10개면 행 블록 삭제
-					if (i == 10)
-					{
-						for (x = 1; x < 11; x++)
-						{
-							setCursor((x + 2) * 2, y + 2);
-							printf("  ");
-						}
-						//행 기준으로 블록 내리기
-						countScore();
-						array_down(y);
+					//행에 블록 10개가 전부 채워져있다면 행의 블록 삭제(line clear)
+					if (i == BOARD_WIDTH) {
+						UpdateLine(y);
+						CountScore();//line clear마다 점수 올림
 					}
 				}
 			}
