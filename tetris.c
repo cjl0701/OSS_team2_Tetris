@@ -489,99 +489,86 @@ int gameWin(void)
 
 void moveBlock(void)
 {
-	int n;
+	int blockType;
 	int kb;
 	int prove;
-	//int winOver;//게임결과
-	srand(time(NULL));
+	srand((unsigned int)time(NULL)); //srand() 인자 기반 난수를 초기화
 	int c = 2;
 	/*게임 시작~끝*/
 	while (1)
 	{
-		initial(CBLOCK_X, CBLOCK_Y); //블록 생성 위치 좌표
-							  // n=(rand()%RAND)*4;//난수생성
-							  //n=rand()%RAND;
-		n = rand() % 7;//블록 모양 결정
-		n = n * 4;
-		// n = 6;
-		if (gameWin())
+		setCursor(CBLOCK_X, CBLOCK_Y); //블록 생성 위치 설정
+		blockType = rand() % 7;//블록 모양을 임의로 결정하기 위해 추출하는 수 
+		blockType = blockType * 4; //blockType은 0~6 사이의 7개의 난수, 도형이 7개
+		if (gameWin())//레벨이 10이면 콘솔 종료
 		{
 			setCursor(35, 20);
 			printf("GAME WIN");
 			(void)getchar();
 			exit(1);
 		}
-		if (gameOver(n))
+		if (gameOver(blockType))//생성된 블록이 생성되자마자 다른 블록과 부딫히는가?
 			break;
+
+		showBlock(blockType);//난수로 추출한 blockType은 블록의 종류를 의미(block[blockType][4][4])
 		/*블록 한개 위~밑 이동*/
 		while (1)
 		{
-			int ww = 0;
-			//int var;
+			int isBlockFixed = 0;//블록 충돌 발생 여부 알리는 flag(닿으면 1)
 			int k = 0;
-			int tmp;
-			/*블록 아래로 이동*/
-			while (!_kbhit())
-			{
-				//블록 쇼
-				showBlock(n);
-				//딜레이 타임
-				Sleep(DELAY + speed);
-				//아래이동시 1있느지 확인
-				if (detect(n, 0, 1) == 1)
-				{
-					ww = 1;
-					boardConginition(n, 0, 0);//보드 벽돌 배열 1추가 
-					control();
-					break;
-				}
-				removeBlock(n, 0, 1);  //board배열 +1행
-			}
-			/*detect함수에서 배열값 1발견시 중지*/
-			if (ww == 1)
+
+			/*블록 하나가 아래로 떨어지는 과정*/
+
+			while (!_kbhit() && isBlockFixed == 0)   //키 입력이 없는 경우
+				BlockFalling(blockType, &isBlockFixed);    //블록이 떨어지다 닿으면 isBlockFixed == 0이 된다.
+
+			//블록이 자리잡았다면 한 블록의 여정이 끝난다. while문 탈출해서 다시 블록 생성부터
+			if (isBlockFixed == 1)
 				break;
-			kb = _getch();
+
+			kb = _getch();//키보드 입력값 받아와 kb에 저장
+
 			/*방향키*/
 			switch (kb)
 			{
 			case LEFT:
-				removeBlock(n, -2, 0);
-				showBlock(n);
+				removeBlock(blockType, -2, 0);
+				showBlock(blockType);
 				break;
 			case RIGHT:
-				removeBlock(n, 2, 0);
-				showBlock(n);
+				removeBlock(blockType, 2, 0);
+				showBlock(blockType);
 				break;
 			case UP:
 				// 첫수를구한다.
-				k = n / 4;
+				k = blockType / 4;
 				k *= 4;
 				// 다음수가 끝수이하인가?
-				if ((n + 1) <= (k + 3))
+				if ((blockType + 1) <= (k + 3))
 				{
-					k = n + 1;
+					k = blockType + 1;
 				}
 				prove = detect(k, 0, 0);
 				if (prove == 0)
 				{
-					removeBlock(n, 0, 0);
-					n = k;
-					showBlock(n);
+					removeBlock(blockType, 0, 0);
+					blockType = k;
+					showBlock(blockType);
 					break;
 				}
 				break;
 			case DOWN:
-				removeBlock(n, 0, 2);
-				//showBlock(n);
+				removeBlock(blockType, 0, 2);
+				//showBlock(blockType);
 				break;
 			case SPACE:
 				while (1)
 				{
-					removeBlock(n, 0, 1);
-					if (detect(n, 0, 1) == 1)
+					removeBlock(blockType, 0, 1);
+					if (detect(blockType, 0, 1) == 1)
 					{
-						showBlock(n);
-						boardConginition(n, 0, 0);
+						showBlock(blockType);
+						boardConginition(blockType, 0, 0);
 						break;
 					}
 				}
