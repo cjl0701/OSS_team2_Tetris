@@ -352,55 +352,48 @@ void removeBlock(int rotation, int move1, int move2)
 	}
 }
 
-//블록 보드판에서 1인식
-void boardConginition(int n, int move1, int move2)
+/*콘솔에 새로 고정된 블록의 위치를 BOARD 배열에 반영*/
+void UpdateBoardArr(int blockType) //blockType은 블록의 모양을 의미하는 변수
 {
-	//int x1, y1;
-	COORD pos = getCursor();
-	int arrX = pos.X + move1;  //콘솔좌표 열
-	int arrY = pos.Y + move2;  //콘솔좌표 행
+	COORD pos = getCursor();//현재 커서의 좌표를 가져온다
+
+	//콘솔의 좌표를 BOARD 배열의 값으로 대응시키기 위한 조작
+	int boardXpos = (pos.X - BOARD_X) / 2;
+	int boardYpos = pos.Y - BOARD_Y;
+
+	//BOARD에 블록의 모양을 반영, 블록이 4*4 이차원 배열로 이루어져있어서 4번씩 반복하는 것.
 	int x, y;
-	/*커서위치정보->배열위치정보 변경*/
-	arrX = arrX / 2 - 2; //콘솔좌표->배열 열 변환값
-	arrY = arrY - 2;  //콘솔좌표->배열 행 변환값
-				  //보드판에서 블록 이동시 1인식
 	for (y = 0; y < 4; y++)
-	{
 		for (x = 0; x < 4; x++)
-		{
-			if (block[n][y][x] == 1)
-			{
-				board[arrY + y][arrX + x] = 1;
-			}
-		}
-	}
-	return;
+			if (block[blockType][y][x] == 1)
+				board[boardYpos + y][boardXpos + x] = 1;
+
 }
-/*배열,블록 옮김*/
-void array_down(int column)
-{
-	int y, x;
-	/*board배열 값 행 다운*/
-	for (y = column; y >= 0; y--)
+
+/*벽돌을 모두 채운 line을 지우기 위해 아래서부터 board배열의 값을 한칸씩 내림*/
+void BoardArrDown(int column) {
+	int y, x;//반복문을 위한 변수
+
+	for (y = column; y >= 1; y--) //완성한 line부터 첫번째 라인까지 반복
+		for (x = 1; x <= BOARD_WIDTH; x++)
+			board[y][x] = board[y - 1][x];//윗 line에 저장된 값을 아래 line에 대입
+
+}
+
+/*변경된 board 배열의 값을 바탕으로 콘솔 출력 */
+void ShowUpdatedBoard() {
+	int y, x;//반복문을 위한 변수
+
+	for (y = 1; y <= BOARD_HEIGHT - 1; y++)
 	{
-		for (x = 1; x <= 10; x++)
+		for (x = 1; x <= BOARD_WIDTH; x++)
 		{
-			board[y][x] = board[y - 1][x];
-		}
-	}
-	/*board배열 0행에 0삽입*/
-	for (x = 1; x <= 10; x++)
-		board[0][x] = 0;
-	/*board배열 1값 전체 출력 */
-	for (y = 1; y <= 19; y++)
-	{
-		for (x = 1; x <= 10; x++)
-		{
-			setCursor((BOARD_X)+x * 2 + 1, y + BOARD_Y);
+			setCursor(x * 2 + BOARD_X + 1, y + BOARD_Y);//board 배열의 값을 콘솔로 대응시키기 위한 조작,
+					//+1을 하는 이유: 블록의 x좌표가 홀수 단위로 설정되어있으므로, 홀수로 맞춰주기 위해.
 			if (board[y][x] == 1)
 				printf("■");
 			else
-				printf("  ");
+				printf("  ");//board배열에서 1이 아닌 부분은 빈칸으로 출력
 		}
 	}
 }
