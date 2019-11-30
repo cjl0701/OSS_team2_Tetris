@@ -19,6 +19,9 @@
 int static score = 0; //게임점수
 int static level = 1; //게임레벨
 int static speed = 180;
+
+void TransPos(int* arrX, int* arrY);
+
 int board[BOARD_HEIGHT + 1][BOARD_WIDTH + 2] = { 0, };
 int block[][4][4] = { //cjl:4x4 2차원 배열로 도형표시-> 2차원 배열의 배열->3차원 배열
 	/*■
@@ -298,6 +301,22 @@ int detect(int rotation, int move1, int move2)
 		}
 	}
 	return 0;  //겹치지 않음
+}
+
+//콘솔 좌표 → 배열 좌표 환산 함수
+void TransPos(int* arrX, int* arrY) {
+
+	COORD pos = getCursor(); //minju  현재 좌표로 구조체 초기화
+
+	*arrX += pos.X; //minju 현재 x좌표 더하기 
+	*arrY += pos.Y; //minju 현재 y좌표 더하기
+
+	*arrX = (*arrX / 2) - 2; //minju 콘솔좌표->배열 열 변환값 
+	*arrY = *arrY - BOARD_Y; //minju 콘솔좌표->배열 행 변환값
+
+	/* minju 커서 x좌표는 2당 1이라고 계산(블록크기가 2라서)하기 때문에 배열로 표현할때는
+	   콘솔좌표에 /2를 하고, x좌표와 y좌표에 -2를 하는 이유는 처음에 보드 출력(showBoard())할때
+	   x좌표 2칸(콘솔좌표 기준은 4칸) y좌표로 2칸 이동 후 출력했기 때문이다. */
 }
 
 //벽돌생성
