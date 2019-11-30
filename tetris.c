@@ -19,7 +19,6 @@
 int static score = 0; //게임점수
 int static level = 1; //게임레벨
 int static speed = 180;
-int curX, curY; //콘솔커서
 int board[BOARD_HEIGHT + 1][BOARD_WIDTH + 2] = { 0, };
 int block[][4][4] = { //cjl:4x4 2차원 배열로 도형표시-> 2차원 배열의 배열->3차원 배열
 	/*■
@@ -278,13 +277,6 @@ void showBoard(void)
 	// printf("\n");
 	//}
 	puts(" ");
-}
-
-void initial(int x, int y)
-{
-	curX = x;
-	curY = y;
-	setCursor(x, y);
 }
 
 //removeBlock함수 작동전 벽인 or 아닌지확인
