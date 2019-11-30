@@ -283,7 +283,7 @@ void showBoard(void)
 }
 
 //removeBlock함수 작동전 벽인 or 아닌지확인
-int detect(int rotation, int move1, int move2)
+int detect(int blcokTpye, int move1, int move2)
 {
 	int x, y;
 	int arrX, arrY; //배열좌표저장
@@ -296,7 +296,7 @@ int detect(int rotation, int move1, int move2)
 	{
 		for (x = 0; x < 4; x++)
 		{
-			if ((block[rotation][y][x] == 1) && board[arrY + y][arrX + x] == 1)
+			if ((block[blcokTpye][y][x] == 1) && board[arrY + y][arrX + x] == 1)
 				return 1;  //보드와 벽돌 겹침
 		}
 	}
@@ -482,10 +482,10 @@ void CheckLine(void)
 	}
 }
 
-int GameOver(int rotation)
+int GameOver(int blcokTpye)
 {
 	setCursor(CBLOCK_X, CBLOCK_Y); //블록 생성 위치 설정
-	if (detect(rotation, 0, 0))
+	if (detect(blcokTpye, 0, 0))
 		return 1; //게임 끝
 	else
 		return 0;
