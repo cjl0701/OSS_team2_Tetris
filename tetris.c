@@ -219,13 +219,13 @@ void removeCursor(void)
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &curInfo);
 }
 
-void setCursor(int x, int y)
+void SetCursor(int x, int y)
 {
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-COORD getCursor(void)
+COORD GetCursor(void)
 {
 	COORD cur;
 	CONSOLE_SCREEN_BUFFER_INFO curInfo;
@@ -234,19 +234,24 @@ COORD getCursor(void)
 	cur.Y = curInfo.dwCursorPosition.Y;
 	return cur;
 }
-//void showBlock(int rotation);
 
-void showBoard(void)
+//void ShowBlock(int rotation);
+
+void ShowBoard(void)
 {
+	setCursor(2, 1); //보드표시 시작위치 설정
 	int x, y;
 	//중앙 보드 라인
 	for (x = 1; x <= BOARD_WIDTH + 1; x++)
 	{
 		board[BOARD_HEIGHT][x] = 1; //board 배열 중앙 1인식
-		setCursor((BOARD_X)+x * 2, BOARD_Y + BOARD_HEIGHT);  //콘솔좌표
+		setCursor((BOARD_X)+x * 2 + 1, BOARD_Y + BOARD_HEIGHT);  //콘솔좌표
 		printf("━");
-	}
-	//왼쪽 보드 라인
+	}/*x를 1부터 보드의 크기만큼 for문을 돌려주고 board배열에  1로 바꿔주고
+ setCursor를 통해서 x에다가 2를 곱해주는데 이유는 곱하지 않으면 반만 출력 되므로 2를 곱해줬다.
+ 그리고 좌표에다가 경계선을 그려준다*/
+
+ //왼쪽 보드 라인
 	for (y = 0; y < BOARD_HEIGHT + 1; y++)
 	{
 		board[y][0] = 1; //board 배열 왼쪽 1인식
@@ -256,16 +261,21 @@ void showBoard(void)
 		else
 			printf("┃");
 	}
-	//오른쪽 보드 라인
+
+	/*y를 0부터 높이만큼 for문을 돌려주고 board배열에서 왼쪽 라인을 1로 바꿔주고 y가 보드의 높이랑 같으면
+  ’┗’을 출력하고 아니면 ‘┃’을 출력한다.*/
+
+  //오른쪽 보드 라인
 	for (y = 0; y < BOARD_HEIGHT + 1; y++)
 	{
 		board[y][BOARD_WIDTH + 1] = 1; //board 배열 오른쪽 1인식
-		setCursor(BOARD_X + (BOARD_WIDTH + 2) * 2, BOARD_Y + y);
+		setCursor(BOARD_X - 1 + (BOARD_WIDTH + 2) * 2, BOARD_Y + y);
 		if (y == BOARD_HEIGHT)
 			printf("┛");
 		else
 			printf("┃");
 	}
+
 	//모서리값 값 변경
 	board[20][0] = 1;
 	board[20][11] = 1;
@@ -280,11 +290,10 @@ void showBoard(void)
 	//}
 	puts(" ");
 }
-
 //콘솔 좌표 → 배열 좌표 환산 함수
 void TransPos(int* arrX, int* arrY) {
 
-	COORD pos = getCursor(); //  현재 좌표로 구조체 초기화
+	COORD pos = GetCursor(); //  현재 좌표로 구조체 초기화
 
 	*arrX += pos.X; // 현재 x좌표 더하기 
 	*arrY += pos.Y; // 현재 y좌표 더하기
@@ -293,7 +302,7 @@ void TransPos(int* arrX, int* arrY) {
 	*arrY = *arrY - BOARD_Y; // 콘솔좌표->배열 행 변환값
 
 	/*  커서 x좌표는 2당 1이라고 계산(블록크기가 2라서)하기 때문에 배열로 표현할때는
-	   콘솔좌표에 /2를 하고, x좌표와 y좌표에 -2를 하는 이유는 처음에 보드 출력(showBoard())할때
+	   콘솔좌표에 /2를 하고, x좌표와 y좌표에 -2를 하는 이유는 처음에 보드 출력(ShowBoard())할때
 	   x좌표 2칸(콘솔좌표 기준은 4칸) y좌표로 2칸 이동 후 출력했기 때문이다. */
 }
 
@@ -314,9 +323,6 @@ int IsCollision(int blockType, int moveX, int moveY) // blockType 변수는 블록 모
 			if ((block[blockType][y][x] == 1) && board[arrY + y][arrX + x] == 1)// 현재 위치에서 blockType모양 블록이 x나 y축으로 move할 예정인 경우 
 												   // 현재 위치에서 move예정인 좌표에 4x4 테두리 안에 blockType모양 블록을 가상으로 그렸다고 생각했을 때  
 												   // 그 4x4테두리 안에 있는 보드판 블록이 4x4 blockType모양 블록과 한개라도 겹치면 겹쳤다고 판별  
-
-
-
 				return 1;  // 보드에 쌓여있는 블록이나 보드판 테두리 블록과 벽돌 겹친다고 판별
 		}
 	}
@@ -326,12 +332,11 @@ int IsCollision(int blockType, int moveX, int moveY) // blockType 변수는 블록 모
 
 
 //벽돌생성
-void showBlock(int rotation)
+void ShowBlock(int rotation)
 {
 	int x, y;
-	COORD cursor = getCursor();
+	COORD cursor = GetCursor();
 	int prove;
-	//int n=(rotation-1)%4;
 	prove = IsCollision(rotation, 0, 0);
 	if (prove == 0) {
 		//콘솔창위치 설정, 배열값에서 1은 ■출력,0은 출력없음
@@ -339,20 +344,19 @@ void showBlock(int rotation)
 		{
 			for (x = 0; x < 4; x++)
 			{
-				setCursor(cursor.X + (x * 2), cursor.Y + y);
+				SetCursor(cursor.X + (x * 2), cursor.Y + y);//x는 좁아서 2칸
 				if (block[rotation][y][x] == 1)
 					printf("■");
 			}
 		}
-		setCursor(cursor.X, cursor.Y);
+		SetCursor(cursor.X, cursor.Y);
 	}
 }
-
 void removeBlock(int rotation, int move1, int move2)
 {
 	int pr;
 	int x, y;
-	COORD cursor = getCursor();
+	COORD cursor = GetCursor();
 	pr = IsCollision(rotation, move1, move2);
 	if (pr == 0)
 	{
@@ -360,19 +364,19 @@ void removeBlock(int rotation, int move1, int move2)
 		{
 			for (x = 0; x < 4; x++)
 			{
-				setCursor(cursor.X + (x * 2), cursor.Y + y);
+				SetCursor(cursor.X + (x * 2), cursor.Y + y);
 				if (block[rotation][y][x] == 1)
 					printf(" ");
 			}
 		}
-		setCursor(cursor.X + move1, cursor.Y + move2);
+		SetCursor(cursor.X + move1, cursor.Y + move2);
 	}
 }
 
 /*콘솔에 새로 고정된 블록의 위치를 BOARD 배열에 반영*/
 void UpdateBoardArr(int blockType) //blockType은 블록의 모양을 의미하는 변수
 {
-	COORD pos = getCursor();//현재 커서의 좌표를 가져온다
+	COORD pos = GetCursor();//현재 커서의 좌표를 가져온다
 
 	//콘솔의 좌표를 BOARD 배열의 값으로 대응시키기 위한 조작
 	int boardXpos = (pos.X - BOARD_X) / 2;
@@ -405,7 +409,7 @@ void ShowUpdatedBoard() {
 	{
 		for (x = 1; x <= BOARD_WIDTH; x++)
 		{
-			setCursor(x * 2 + BOARD_X + 1, y + BOARD_Y);//board 배열의 값을 콘솔로 대응시키기 위한 조작,
+			SetCursor(x * 2 + BOARD_X + 1, y + BOARD_Y);//board 배열의 값을 콘솔로 대응시키기 위한 조작,
 					//+1을 하는 이유: 블록의 x좌표가 홀수 단위로 설정되어있으므로, 홀수로 맞춰주기 위해.
 			if (board[y][x] == 1)
 				printf("■");
@@ -416,26 +420,27 @@ void ShowUpdatedBoard() {
 }
 
 //레벨 스코어 출력
-void scoreLevel(void)
+void ScoreLevel(struct option* po)
 {
 	setCursor(40, 3);
 	printf("★레벨10 게임 클리어★");
 	setCursor(40, 5);
-	printf("레벨:%d\n", level);
+	printf("레벨:%d\n", po->level);
 	setCursor(40, 7);
-	printf("점수:%d\n", score);
+	printf("점수:%d\n", po->score);
 }
 
 //레벨 스코어 계산
-void countScore(void)
+void CountScore(struct option* po)
 {
-	score += 10;
-	if (score % 30 == 0)
+	po->score += 10;
+	if (po->score % 30 == 0)
 	{
-		level += 1;
-		speed -= 30;
+		po->level += 1;
+		po->speed += 30;
+
 	}
-	scoreLevel();
+	ScoreLevel(po);
 }
 
 /*한 line이 다 차면 해당 라인을 지운다 */
@@ -445,7 +450,7 @@ void ClearLine(int line)//column에는 삭제할 line의 y좌표가 전달됨.
 	for (x = 1; x < BOARD_WIDTH + 1; x++)
 	{
 		//board 배열의 값을 콘솔로 대응시키기 위해 board 배열의 index를 콘솔 좌표로 변환
-		setCursor(x * 2 + BOARD_X, line + BOARD_Y);
+		SetCursor(x * 2 + BOARD_X, line + BOARD_Y);
 		printf("  ");//블록이 x좌표 2칸을 차지하므로 공백 2칸으로 대체
 	}
 }
@@ -490,7 +495,7 @@ void CheckLine(void)
 
 int GameOver(int blcokTpye)
 {
-	setCursor(CBLOCK_X, CBLOCK_Y); //블록 생성 위치 설정
+	SetCursor(CBLOCK_X, CBLOCK_Y); //블록 생성 위치 설정
 	if (IsCollision(blcokTpye, 0, 0))
 		return 1; //게임 끝
 	else
@@ -513,35 +518,35 @@ void UpdateBlock(int kb, int* pblocktype)// kb: 키보드값, pblocktype = 블록타입�
 	int updateBlock = 0; //다음 블록 저장
 	int blockType = *pblocktype; //현재 블록타입 저장
 
-	//COORD cursor = getCursor();
+	//COORD cursor = GetCursor();
 
 	switch (kb)    //switch-case구문을 이용하여 (왼쪽,오른쪽,위,아래,스페이스) 행동지시
 	{
 	case LEFT:        //키보드 값이 왼쪽방향키 일때
 
 		removeBlock(blockType, -2, 0); //블록(잔상)을 지우고 커서를 x축 -2칸 움직임(왼쪽으로 2칸(="■"한칸)움직임)
-		showBlock(blockType);//블록을 화면에 출력
+		ShowBlock(blockType);//블록을 화면에 출력
 		/*
 		prove=detect(blocktype, 2, 0);
 		if(prove==0){
 		   removeBlock(blocktype);
-		   setCursor(cursor.X -2, cursor.Y)
-		   showBlock(blocktype);
+		   SetCursor(cursor.X -2, cursor.Y)
+		   ShowBlock(blocktype);
 		}
 		*/
 
 		break;
 	case RIGHT:      //키보드 값이 오른쪽방향키 일때
 		removeBlock(blockType, 2, 0); //블록(잔상)을 지우고 커서를 x축 +2칸 움직임(오른쪽으로 2칸(="■"한칸)움직임)
-		showBlock(blockType);//블록을 화면에 출력
+		ShowBlock(blockType);//블록을 화면에 출력
 
 
 		/*
 		prove=detect(blocktype, 2, 0);
 		if(prove==0){
 		   removeBlock(blocktype);
-		   setCursor(cursor.X +2, cursor.Y)
-		   showBlock(blocktype);
+		   SetCursor(cursor.X +2, cursor.Y)
+		   ShowBlock(blocktype);
 		}
 		*/
 
@@ -572,14 +577,14 @@ void UpdateBlock(int kb, int* pblocktype)// kb: 키보드값, pblocktype = 블록타입�
 		if (prove == 0)          //다음타입 블록이 다른 블록이나 벽에 충동하지 않는다면
 		{
 			removeBlock(blockType, 0, 0); //블록(잔상)을 지우고 커서는 고정         
-			showBlock(updateBlock);  //블록을 화면에 출력
+			ShowBlock(updateBlock);  //블록을 화면에 출력
 			*pblocktype = updateBlock; //블록타입을 다음블럭으로 교체
 			break;
 		}
 		break;
 	case DOWN:      //키보드 값이 아래쪽 방향키 일때
 		removeBlock(blockType, 0, 1);  //블록(잔상)을 지우고 커서를 y축 +2칸 움직임(아래쪽으로 2칸(="■"한칸)움직임)
-		showBlock(blockType);
+		ShowBlock(blockType);
 		break;
 	case SPACE:     //키보드 값이 스페이스키 일때
 		while (1)   //블록이 충돌이 발생할때까지 반복
@@ -587,7 +592,7 @@ void UpdateBlock(int kb, int* pblocktype)// kb: 키보드값, pblocktype = 블록타입�
 			removeBlock(blockType, 0, 1);     //블록(잔상)을 지우고 커서를 y축 +1칸 움직임(아래쪽으로 1칸(="■"한칸)움직임)
 			if (IsCollision(blockType, 0, 1) == 1) //블럭이 다른 블록이나 벽에 충돌한다면
 			{
-				showBlock(blockType);         //블록을 화면에 출력
+				ShowBlock(blockType);         //블록을 화면에 출력
 				UpdateBoardArr(blockType, 0, 0); //블록을 고정시킴
 				break;
 			}
@@ -611,7 +616,7 @@ void moveBlock(void)
 		blockType = rand() % 7;//블록 모양을 임의로 결정하기 위해 추출하는 수 
 		blockType = blockType * 4; //blockType은 0~6 사이의 7개의 난수, 도형이 7개
 
-		showBlock(blockType);//난수로 추출한 blockType은 블록의 종류를 의미(block[blockType][4][4])
+		ShowBlock(blockType);//난수로 추출한 blockType은 블록의 종류를 의미(block[blockType][4][4])
 		/*블록 한개 위~밑 이동*/
 		while (1)
 		{
@@ -633,15 +638,15 @@ void moveBlock(void)
 	
 		}
 	}
-	setCursor(35, 20);
+	SetCursor(35, 20);
 	printf("GAME OVER");
 }
 int main()
 {
 	removeCursor(); //커서 깜박이 제거
-	setCursor(2, 1); //보드표시 시작위치 설정
-	showBoard(); //보드 출력
-	scoreLevel();
+	SetCursor(2, 1); //보드표시 시작위치 설정
+	ShowBoard(); //보드 출력
+	ScoreLevel();
 	moveBlock(); //보드 출력 움직임
 	(void)getchar();
 }
