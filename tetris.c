@@ -467,7 +467,7 @@ void CheckLine(void)
 	for (y = BOARD_HEIGHT - 1; y >= 1; y--) //아래에서 위로 한칸씩 검사 y=1은 보드판
 	{
 		//한 행당 4번 반복=>내려온 라인을 검사하기 위해.(한번에 사라질 수 있는 라인 수는 최대 4라인이므로)
-		for (iter = 0; iter < 4; iter++)
+		for (i = 0; i < 4; i++)
 		{
 			numOfFixedCell = 0;
 			//board[][x]에 ■을 의미하는 값(1)이 저장되어있다.
