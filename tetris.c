@@ -482,7 +482,7 @@ void CheckLine(void)
 	}
 }
 
-int gameOver(int rotation)
+int GameOver(int rotation)
 {
 	setCursor(CBLOCK_X, CBLOCK_Y); //블록 생성 위치 설정
 	if (detect(rotation, 0, 0))
@@ -491,7 +491,7 @@ int gameOver(int rotation)
 		return 0;
 }
 
-int gameWin(void)
+int GameWin(void)
 {
 	if (level == 10)
 		return 1; //게임승
@@ -511,14 +511,14 @@ void moveBlock(void)
 	{
 		blockType = rand() % 7;//블록 모양을 임의로 결정하기 위해 추출하는 수 
 		blockType = blockType * 4; //blockType은 0~6 사이의 7개의 난수, 도형이 7개
-		if (gameWin())//레벨이 10이면 콘솔 종료
+		if (GameWin())//레벨이 10이면 콘솔 종료
 		{
 			setCursor(35, 20);
 			printf("GAME WIN");
 			(void)getchar();
 			exit(1);
 		}
-		if (gameOver(blockType))//생성된 블록이 생성되자마자 다른 블록과 부딫히는가?
+		if (GameOver(blockType))//생성된 블록이 생성되자마자 다른 블록과 부딫히는가?
 			break;
 
 		showBlock(blockType);//난수로 추출한 blockType은 블록의 종류를 의미(block[blockType][4][4])
