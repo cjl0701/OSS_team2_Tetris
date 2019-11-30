@@ -600,7 +600,7 @@ void UpdateBlock(int kb, int* pblocktype)// kb: 키보드값, pblocktype = 블록타입�
 
 void moveBlock(void)
 {
-	int blockType;
+	int blockType = 0;
 	int kb;
 	int prove;
 	srand((unsigned int)time(NULL)); //srand() 인자 기반 난수를 초기화
