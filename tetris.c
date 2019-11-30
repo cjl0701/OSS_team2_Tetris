@@ -507,19 +507,10 @@ void moveBlock(void)
 	srand((unsigned int)time(NULL)); //srand() 인자 기반 난수를 초기화
 
 	/*게임 시작~끝*/
-	while (1)
+	while (!(GameWin() || GameOver(blockType)))
 	{
 		blockType = rand() % 7;//블록 모양을 임의로 결정하기 위해 추출하는 수 
 		blockType = blockType * 4; //blockType은 0~6 사이의 7개의 난수, 도형이 7개
-		if (GameWin())//레벨이 10이면 콘솔 종료
-		{
-			setCursor(35, 20);
-			printf("GAME WIN");
-			(void)getchar();
-			exit(1);
-		}
-		if (GameOver(blockType))//생성된 블록이 생성되자마자 다른 블록과 부딫히는가?
-			break;
 
 		showBlock(blockType);//난수로 추출한 blockType은 블록의 종류를 의미(block[blockType][4][4])
 		/*블록 한개 위~밑 이동*/
