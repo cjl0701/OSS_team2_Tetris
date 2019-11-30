@@ -284,40 +284,40 @@ void showBoard(void)
 //콘솔 좌표 → 배열 좌표 환산 함수
 void TransPos(int* arrX, int* arrY) {
 
-	COORD pos = getCursor(); //minju  현재 좌표로 구조체 초기화
+	COORD pos = getCursor(); //  현재 좌표로 구조체 초기화
 
-	*arrX += pos.X; //minju 현재 x좌표 더하기 
-	*arrY += pos.Y; //minju 현재 y좌표 더하기
+	*arrX += pos.X; // 현재 x좌표 더하기 
+	*arrY += pos.Y; // 현재 y좌표 더하기
 
-	*arrX = (*arrX / 2) - 2; //minju 콘솔좌표->배열 열 변환값 
-	*arrY = *arrY - BOARD_Y; //minju 콘솔좌표->배열 행 변환값
+	*arrX = (*arrX / 2) - 2; // 콘솔좌표->배열 열 변환값 
+	*arrY = *arrY - BOARD_Y; // 콘솔좌표->배열 행 변환값
 
-	/* minju 커서 x좌표는 2당 1이라고 계산(블록크기가 2라서)하기 때문에 배열로 표현할때는
+	/*  커서 x좌표는 2당 1이라고 계산(블록크기가 2라서)하기 때문에 배열로 표현할때는
 	   콘솔좌표에 /2를 하고, x좌표와 y좌표에 -2를 하는 이유는 처음에 보드 출력(showBoard())할때
 	   x좌표 2칸(콘솔좌표 기준은 4칸) y좌표로 2칸 이동 후 출력했기 때문이다. */
 }
 
-int IsCollision(int blockType, int moveX, int moveY) //minju blockType 변수는 블록 모양을 의미 moveX, moveY는 이동예정 x,y좌표
+int IsCollision(int blockType, int moveX, int moveY) // blockType 변수는 블록 모양을 의미 moveX, moveY는 이동예정 x,y좌표
 {
-	int x, y; //minju 비교용 임시 좌표 변수
+	int x, y; // 비교용 임시 좌표 변수
 	int arrX = 0, arrY = 0; //배열좌표저장 변수 
 
-	arrX += moveX; //minju 이동예정 x좌표 저장 
-	arrY += moveY; //minju 이동예정 y좌표 저장
+	arrX += moveX; // 이동예정 x좌표 저장 
+	arrY += moveY; // 이동예정 y좌표 저장
 
 	TransPos(&arrX, &arrY); //좌표 환산 함수 호출
 
-	for (y = 0; y < 4; y++) //minju  4x4번 총 16번 반복(블록크기인 4x4 네모 스캔)
+	for (y = 0; y < 4; y++) //  4x4번 총 16번 반복(블록크기인 4x4 네모 스캔)
 	{
 		for (x = 0; x < 4; x++)
 		{
-			if ((block[blockType][y][x] == 1) && board[arrY + y][arrX + x] == 1)//minju 현재 위치에서 blockType모양 블록이 x나 y축으로 move할 예정인 경우 
+			if ((block[blockType][y][x] == 1) && board[arrY + y][arrX + x] == 1)// 현재 위치에서 blockType모양 블록이 x나 y축으로 move할 예정인 경우 
 												   // 현재 위치에서 move예정인 좌표에 4x4 테두리 안에 blockType모양 블록을 가상으로 그렸다고 생각했을 때  
 												   // 그 4x4테두리 안에 있는 보드판 블록이 4x4 blockType모양 블록과 한개라도 겹치면 겹쳤다고 판별  
 
 
 
-				return 1;  //minju 보드에 쌓여있는 블록이나 보드판 테두리 블록과 벽돌 겹친다고 판별
+				return 1;  // 보드에 쌓여있는 블록이나 보드판 테두리 블록과 벽돌 겹친다고 판별
 		}
 	}
 	return 0;  //겹치지 않음
