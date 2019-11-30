@@ -561,12 +561,12 @@ void UpdateBlock(int kb, int* pblocktype)// kb: 키보드값, pblocktype = 블�
 	   //nextblock에 현재 블록타입의 기본타입을 저장한다. 예를 들어 ㄴ블록의 타입은 ㄴ,┘,ㄱ,┌  총 4가지가 있고 k는 ㄴ을 저장하게 된다.(다른 블록도 마찬가지)
 		updateBlock = blockType / 4;
 		updateBlock *= 4;
-
+		/*
 		inintupdateblock(int* updateBlock, int bloackType) {
 			*updateBlock = blockType / 4;
 			(*updateBlock) *= 4;
 		}
-
+		*/
 		// 다음수가 끝수이하인가? 
 		if ((blockType + 1) <= (updateBlock + 3)) //예를들어 ㄴ블록타입(ㄴ,┘,ㄱ,┌ )중에 k가 ┌(마지막타입)일경우 증가하면 다른 블록이 되므로 억제시킨다.
 			updateBlock = blockType + 1;         //마지막 타입이 아닐경우 현재 타입의 다음 타입을 k에 저장한다.
