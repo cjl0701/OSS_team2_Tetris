@@ -19,7 +19,11 @@
 int static score = 0; //°ÔÀÓÁ¡¼ö
 int static level = 1; //°ÔÀÓ·¹º§
 int static speed = 180;
-
+struct option {
+	int speed;
+	int level;
+	int score;
+};
 
 int board[BOARD_HEIGHT + 1][BOARD_WIDTH + 2] = { 0, };
 int block[][4][4] = { //cjl:4x4 2Â÷¿ø ¹è¿­·Î µµÇüÇ¥½Ã-> 2Â÷¿ø ¹è¿­ÀÇ ¹è¿­->3Â÷¿ø ¹è¿­
@@ -219,13 +223,13 @@ void removeCursor(void)
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &curInfo);
 }
 
-void SetCursor(int x, int y)
+void setCursor(int x, int y)
 {
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-COORD GetCursor(void)
+COORD getCursor(void)
 {
 	COORD cur;
 	CONSOLE_SCREEN_BUFFER_INFO curInfo;
@@ -310,7 +314,7 @@ void ShowBoard(void)
 //ÄÜ¼Ö ÁÂÇ¥ ¡æ ¹è¿­ ÁÂÇ¥ È¯»ê ÇÔ¼ö
 void TransPos(int* arrX, int* arrY) {
 
-	COORD pos = GetCursor(); //  ÇöÀç ÁÂÇ¥·Î ±¸Á¶Ã¼ ÃÊ±âÈ­
+	COORD pos = getCursor(); //  ÇöÀç ÁÂÇ¥·Î ±¸Á¶Ã¼ ÃÊ±âÈ­
 
 	*arrX += pos.X; // ÇöÀç xÁÂÇ¥ ´õÇÏ±â 
 	*arrY += pos.Y; // ÇöÀç yÁÂÇ¥ ´õÇÏ±â
@@ -352,7 +356,7 @@ int IsCollision(int blockType, int moveX, int moveY) // blockType º¯¼ö´Â ºí·Ï ¸ð
 void ShowBlock(int rotation)
 {
 	int x, y;
-	COORD cursor = GetCursor();
+	COORD cursor = getCursor();
 	int prove;
 	prove = IsCollision(rotation, 0, 0);
 	if (prove == 0) {
@@ -361,19 +365,19 @@ void ShowBlock(int rotation)
 		{
 			for (x = 0; x < 4; x++)
 			{
-				SetCursor(cursor.X + (x * 2), cursor.Y + y);//x´Â Á¼¾Æ¼­ 2Ä­
+				setCursor(cursor.X + (x * 2), cursor.Y + y);//x´Â Á¼¾Æ¼­ 2Ä­
 				if (block[rotation][y][x] == 1)
 					printf("¡á");
 			}
 		}
-		SetCursor(cursor.X, cursor.Y);
+		setCursor(cursor.X, cursor.Y);
 	}
 }
 void removeBlock(int rotation, int move1, int move2)
 {
 	int pr;
 	int x, y;
-	COORD cursor = GetCursor();
+	COORD cursor = getCursor();
 	pr = IsCollision(rotation, move1, move2);
 	if (pr == 0)
 	{
@@ -381,19 +385,19 @@ void removeBlock(int rotation, int move1, int move2)
 		{
 			for (x = 0; x < 4; x++)
 			{
-				SetCursor(cursor.X + (x * 2), cursor.Y + y);
+				setCursor(cursor.X + (x * 2), cursor.Y + y);
 				if (block[rotation][y][x] == 1)
 					printf(" ");
 			}
 		}
-		SetCursor(cursor.X + move1, cursor.Y + move2);
+		setCursor(cursor.X + move1, cursor.Y + move2);
 	}
 }
 
 /*ÄÜ¼Ö¿¡ »õ·Î °íÁ¤µÈ ºí·ÏÀÇ À§Ä¡¸¦ BOARD ¹è¿­¿¡ ¹Ý¿µ*/
 void UpdateBoardArr(int blockType) //blockTypeÀº ºí·ÏÀÇ ¸ð¾çÀ» ÀÇ¹ÌÇÏ´Â º¯¼ö
 {
-	COORD pos = GetCursor();//ÇöÀç Ä¿¼­ÀÇ ÁÂÇ¥¸¦ °¡Á®¿Â´Ù
+	COORD pos = getCursor();//ÇöÀç Ä¿¼­ÀÇ ÁÂÇ¥¸¦ °¡Á®¿Â´Ù
 
 	//ÄÜ¼ÖÀÇ ÁÂÇ¥¸¦ BOARD ¹è¿­ÀÇ °ªÀ¸·Î ´ëÀÀ½ÃÅ°±â À§ÇÑ Á¶ÀÛ
 	int boardXpos = (pos.X - BOARD_X) / 2;
@@ -426,7 +430,7 @@ void ShowUpdatedBoard() {
 	{
 		for (x = 1; x <= BOARD_WIDTH; x++)
 		{
-			SetCursor(x * 2 + BOARD_X + 1, y + BOARD_Y);//board ¹è¿­ÀÇ °ªÀ» ÄÜ¼Ö·Î ´ëÀÀ½ÃÅ°±â À§ÇÑ Á¶ÀÛ,
+			setCursor(x * 2 + BOARD_X + 1, y + BOARD_Y);//board ¹è¿­ÀÇ °ªÀ» ÄÜ¼Ö·Î ´ëÀÀ½ÃÅ°±â À§ÇÑ Á¶ÀÛ,
 					//+1À» ÇÏ´Â ÀÌÀ¯: ºí·ÏÀÇ xÁÂÇ¥°¡ È¦¼ö ´ÜÀ§·Î ¼³Á¤µÇ¾îÀÖÀ¸¹Ç·Î, È¦¼ö·Î ¸ÂÃçÁÖ±â À§ÇØ.
 			if (board[y][x] == 1)
 				printf("¡á");
@@ -467,7 +471,7 @@ void ClearLine(int line)//column¿¡´Â »èÁ¦ÇÒ lineÀÇ yÁÂÇ¥°¡ Àü´ÞµÊ.
 	for (x = 1; x < BOARD_WIDTH + 1; x++)
 	{
 		//board ¹è¿­ÀÇ °ªÀ» ÄÜ¼Ö·Î ´ëÀÀ½ÃÅ°±â À§ÇØ board ¹è¿­ÀÇ index¸¦ ÄÜ¼Ö ÁÂÇ¥·Î º¯È¯
-		SetCursor(x * 2 + BOARD_X, line + BOARD_Y);
+		setCursor(x * 2 + BOARD_X, line + BOARD_Y);
 		printf("  ");//ºí·ÏÀÌ xÁÂÇ¥ 2Ä­À» Â÷ÁöÇÏ¹Ç·Î °ø¹é 2Ä­À¸·Î ´ëÃ¼
 	}
 }
@@ -512,7 +516,7 @@ void CheckLine(void)
 
 int GameOver(int blcokTpye)
 {
-	SetCursor(CBLOCK_X, CBLOCK_Y); //ºí·Ï »ý¼º À§Ä¡ ¼³Á¤
+	setCursor(CBLOCK_X, CBLOCK_Y); //ºí·Ï »ý¼º À§Ä¡ ¼³Á¤
 	if (IsCollision(blcokTpye, 0, 0))
 		return 1; //°ÔÀÓ ³¡
 	else
@@ -535,7 +539,7 @@ void UpdateBlock(int kb, int* pblocktype)// kb: Å°º¸µå°ª, pblocktype = ºí·ÏÅ¸ÀÔÀ
 	int updateBlock = 0; //´ÙÀ½ ºí·Ï ÀúÀå
 	int blockType = *pblocktype; //ÇöÀç ºí·ÏÅ¸ÀÔ ÀúÀå
 
-	//COORD cursor = GetCursor();
+	//COORD cursor = getCursor();
 
 	switch (kb)    //switch-case±¸¹®À» ÀÌ¿ëÇÏ¿© (¿ÞÂÊ,¿À¸¥ÂÊ,À§,¾Æ·¡,½ºÆäÀÌ½º) Çàµ¿Áö½Ã
 	{
@@ -547,7 +551,7 @@ void UpdateBlock(int kb, int* pblocktype)// kb: Å°º¸µå°ª, pblocktype = ºí·ÏÅ¸ÀÔÀ
 		prove=detect(blocktype, 2, 0);
 		if(prove==0){
 		   removeBlock(blocktype);
-		   SetCursor(cursor.X -2, cursor.Y)
+		   setCursor(cursor.X -2, cursor.Y)
 		   ShowBlock(blocktype);
 		}
 		*/
@@ -562,7 +566,7 @@ void UpdateBlock(int kb, int* pblocktype)// kb: Å°º¸µå°ª, pblocktype = ºí·ÏÅ¸ÀÔÀ
 		prove=detect(blocktype, 2, 0);
 		if(prove==0){
 		   removeBlock(blocktype);
-		   SetCursor(cursor.X +2, cursor.Y)
+		   setCursor(cursor.X +2, cursor.Y)
 		   ShowBlock(blocktype);
 		}
 		*/
@@ -655,13 +659,13 @@ void moveBlock(void)
 	
 		}
 	}
-	SetCursor(35, 20);
+	setCursor(35, 20);
 	printf("GAME OVER");
 }
 int main()
 {
 	removeCursor(); //Ä¿¼­ ±ô¹ÚÀÌ Á¦°Å
-	SetCursor(2, 1); //º¸µåÇ¥½Ã ½ÃÀÛÀ§Ä¡ ¼³Á¤
+	setCursor(2, 1); //º¸µåÇ¥½Ã ½ÃÀÛÀ§Ä¡ ¼³Á¤
 	ShowBoard(); //º¸µå Ãâ·Â
 	ScoreLevel();
 	moveBlock(); //º¸µå Ãâ·Â ¿òÁ÷ÀÓ
