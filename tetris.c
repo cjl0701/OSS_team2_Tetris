@@ -237,6 +237,23 @@ COORD GetCursor(void)
 
 //void ShowBlock(int rotation);
 
+//사용방법
+void HowToUse()
+{
+	setCursor(40, 9);
+	printf("★사용방법★");
+	setCursor(40, 11);
+	printf("←:왼쪽으로 이동");
+	setCursor(40, 13);
+	printf("→:오른쪽으로 이동");
+	setCursor(40, 15);
+	printf("↑:모양 회전");
+	setCursor(40, 17);
+	printf("↓:빠르게 내림");
+	setCursor(40, 19);
+	printf("spacebar:바로 내림");
+}
+
 void ShowBoard(void)
 {
 	setCursor(2, 1); //보드표시 시작위치 설정
