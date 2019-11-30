@@ -49,193 +49,199 @@ int block[][4][4] = { //cjl:4x4 2차원 배열로 도형표시-> 2차원 배열의 배열->3차원
 	 { 1,0,0,0 },
 	 { 0,0,0,0 } },
 
-	/* 두 번째 블록
-	  ■
-	■■■     */
-	{
-	 { 0, 0, 0, 0 },
-	 { 0, 0, 1, 0 },
-	 { 1, 1, 1, 0 },
-	 { 0, 0, 0, 0 } },
+	 /* 두 번째 블록
+	   ■
+	 ■■■     */
+	 {
+	  { 0, 0, 0, 0 },
+	  { 0, 0, 1, 0 },
+	  { 1, 1, 1, 0 },
+	  { 0, 0, 0, 0 } },
 
-	{
-	 { 0, 1, 1, 0 },
-	 { 0, 0, 1, 0 },
-	 { 0, 0, 1, 0 },
-	 { 0, 0, 0, 0 } },
+	 {
+	  { 0, 1, 1, 0 },
+	  { 0, 0, 1, 0 },
+	  { 0, 0, 1, 0 },
+	  { 0, 0, 0, 0 } },
 
-	{
-	 { 1, 1, 1, 0 },
-	 { 1, 0, 0, 0 },
-	 { 0, 0, 0, 0 },
-	 { 0, 0, 0, 0 } },
+	 {
+	  { 1, 1, 1, 0 },
+	  { 1, 0, 0, 0 },
+	  { 0, 0, 0, 0 },
+	  { 0, 0, 0, 0 } },
 
-	{
-	 { 1, 0, 0, 0 },
-	 { 1, 0, 0, 0 },
-	 { 1, 1, 0, 0 },
-	 { 0, 0, 0, 0 } },
+	 {
+	  { 1, 0, 0, 0 },
+	  { 1, 0, 0, 0 },
+	  { 1, 1, 0, 0 },
+	  { 0, 0, 0, 0 } },
 
-	/* 세 번째 블록
-	 ■
-	■■■    */
-	{
-	 { 0, 0, 0, 0 },
-	 { 0, 1, 0, 0 },
-	 { 1, 1, 1, 0 },
-	 { 0, 0, 0, 0 } },
+	  /* 세 번째 블록
+	   ■
+	  ■■■    */
+	  {
+	   { 0, 0, 0, 0 },
+	   { 0, 1, 0, 0 },
+	   { 1, 1, 1, 0 },
+	   { 0, 0, 0, 0 } },
 
-	{
-	 { 0, 0, 0, 0 },
-	 { 0, 1, 0, 0 },
-	 { 1, 1, 0, 0 },
-	 { 0, 1, 0, 0 } },
+	  {
+	   { 0, 0, 0, 0 },
+	   { 0, 1, 0, 0 },
+	   { 1, 1, 0, 0 },
+	   { 0, 1, 0, 0 } },
 
-	{
-	 { 0, 0, 0, 0 },
-	 { 0, 0, 0, 0 },
-	 { 1, 1, 1, 0 },
-	 { 0, 1, 0, 0 } },
+	  {
+	   { 0, 0, 0, 0 },
+	   { 0, 0, 0, 0 },
+	   { 1, 1, 1, 0 },
+	   { 0, 1, 0, 0 } },
 
-	{
-	 { 0, 0, 0, 0 },
-	 { 0, 1, 0, 0 },
-	 { 0, 1, 1, 0 },
-	 { 0, 1, 0, 0 } },
+	  {
+	   { 0, 0, 0, 0 },
+	   { 0, 1, 0, 0 },
+	   { 0, 1, 1, 0 },
+	   { 0, 1, 0, 0 } },
 
-	/* 네 번째 블록
-	■■■■   */
-	{
-	 { 0, 1, 0, 0 },
-	 { 0, 1, 0, 0 },
-	 { 0, 1, 0, 0 },
-	 { 0, 1, 0, 0 } },
+	   /* 네 번째 블록
+	   ■■■■   */
+	   {
+		{ 0, 1, 0, 0 },
+		{ 0, 1, 0, 0 },
+		{ 0, 1, 0, 0 },
+		{ 0, 1, 0, 0 } },
 
-	{
-	 { 0, 0, 0, 0 },
-	 { 0, 0, 0, 0 },
-	 { 1, 1, 1, 1 },
-	 { 0, 0, 0, 0 } },
+	   {
+		{ 0, 0, 0, 0 },
+		{ 0, 0, 0, 0 },
+		{ 1, 1, 1, 1 },
+		{ 0, 0, 0, 0 } },
 
-	{
-	 { 0, 1, 0, 0 },
-	 { 0, 1, 0, 0 },
-	 { 0, 1, 0, 0 },
-	 { 0, 1, 0, 0 } },
+	   {
+		{ 0, 1, 0, 0 },
+		{ 0, 1, 0, 0 },
+		{ 0, 1, 0, 0 },
+		{ 0, 1, 0, 0 } },
 
-	{
-	 { 0, 0, 0, 0 },
-	 { 0, 0, 0, 0 },
-	 { 1, 1, 1, 1 },
-	 { 0, 0, 0, 0 } },
+	   {
+		{ 0, 0, 0, 0 },
+		{ 0, 0, 0, 0 },
+		{ 1, 1, 1, 1 },
+		{ 0, 0, 0, 0 } },
 
-	/* 다섯 번째 블록
-	■■
-	■■      */
-	{
-	 { 1, 1, 0, 0 },
-	 { 1, 1, 0, 0 },
-	 { 0, 0, 0, 0 },
-	 { 0, 0, 0, 0 } },
+		/* 다섯 번째 블록
+		■■
+		■■      */
+		{
+		 { 1, 1, 0, 0 },
+		 { 1, 1, 0, 0 },
+		 { 0, 0, 0, 0 },
+		 { 0, 0, 0, 0 } },
 
-	{
-	 { 1, 1, 0, 0 },
-	 { 1, 1, 0, 0 },
-	 { 0, 0, 0, 0 },
-	 { 0, 0, 0, 0 } },
+		{
+		 { 1, 1, 0, 0 },
+		 { 1, 1, 0, 0 },
+		 { 0, 0, 0, 0 },
+		 { 0, 0, 0, 0 } },
 
-	{
-	 { 1, 1, 0, 0 },
-	 { 1, 1, 0, 0 },
-	 { 0, 0, 0, 0 },
-	 { 0, 0, 0, 0 } },
+		{
+		 { 1, 1, 0, 0 },
+		 { 1, 1, 0, 0 },
+		 { 0, 0, 0, 0 },
+		 { 0, 0, 0, 0 } },
 
-	{
-	 { 1, 1, 0, 0 },
-	 { 1, 1, 0, 0 },
-	 { 0, 0, 0, 0 },
-	 { 0, 0, 0, 0 } },
+		{
+		 { 1, 1, 0, 0 },
+		 { 1, 1, 0, 0 },
+		 { 0, 0, 0, 0 },
+		 { 0, 0, 0, 0 } },
 
-	/* 여섯 번째 블록
-	 ■■
-	■■      */
-	{
-	 { 0, 0, 0, 0 },
-	 { 0, 1, 1, 0 },
-	 { 1, 1, 0, 0 },
-	 { 0, 0, 0, 0 } },
+		 /* 여섯 번째 블록
+		  ■■
+		 ■■      */
+		 {
+		  { 0, 0, 0, 0 },
+		  { 0, 1, 1, 0 },
+		  { 1, 1, 0, 0 },
+		  { 0, 0, 0, 0 } },
 
-	{
-	 { 0, 1, 0, 0 },
-	 { 0, 1, 1, 0 },
-	 { 0, 0, 1, 0 },
-	 { 0, 0, 0, 0 } },
+		 {
+		  { 0, 1, 0, 0 },
+		  { 0, 1, 1, 0 },
+		  { 0, 0, 1, 0 },
+		  { 0, 0, 0, 0 } },
 
-	{
-	 { 0, 0, 0, 0 },
-	 { 0, 1, 1, 0 },
-	 { 1, 1, 0, 0 },
-	 { 0, 0, 0, 0 } },
+		 {
+		  { 0, 0, 0, 0 },
+		  { 0, 1, 1, 0 },
+		  { 1, 1, 0, 0 },
+		  { 0, 0, 0, 0 } },
 
-	{
-	 { 0, 1, 0, 0 },
-	 { 0, 1, 1, 0 },
-	 { 0, 0, 1, 0 },
-	 { 0, 0, 0, 0 } },
+		 {
+		  { 0, 1, 0, 0 },
+		  { 0, 1, 1, 0 },
+		  { 0, 0, 1, 0 },
+		  { 0, 0, 0, 0 } },
 
-	/* 일곱 번째 블록
-	■■
-	 ■■    */
-	{
-	 { 0, 0, 0, 0 },
-	 { 1, 1, 0, 0 },
-	 { 0, 1, 1, 0 },
-	 { 0, 0, 0, 0 } },
+		  /* 일곱 번째 블록
+		  ■■
+		   ■■    */
+		  {
+		   { 0, 0, 0, 0 },
+		   { 1, 1, 0, 0 },
+		   { 0, 1, 1, 0 },
+		   { 0, 0, 0, 0 } },
 
-	{
-	 { 0, 0, 1, 0 },
-	 { 0, 1, 1, 0 },
-	 { 0, 1, 0, 0 },
-	 { 0, 0, 0, 0 } },
+		  {
+		   { 0, 0, 1, 0 },
+		   { 0, 1, 1, 0 },
+		   { 0, 1, 0, 0 },
+		   { 0, 0, 0, 0 } },
 
-	{
-	 { 0, 0, 0, 0 },
-	 { 1, 1, 0, 0 },
-	 { 0, 1, 1, 0 },
-	 { 0, 0, 0, 0 } },
+		  {
+		   { 0, 0, 0, 0 },
+		   { 1, 1, 0, 0 },
+		   { 0, 1, 1, 0 },
+		   { 0, 0, 0, 0 } },
 
-	{
-	 { 0, 0, 1, 0 },
-	 { 0, 1, 1, 0 },
-	 { 0, 1, 0, 0 },
-	 { 0, 0, 0, 0 } },
+		  {
+		   { 0, 0, 1, 0 },
+		   { 0, 1, 1, 0 },
+		   { 0, 1, 0, 0 },
+		   { 0, 0, 0, 0 } },
 };
 
-void removeCursor(void)
+void RemoveCursor(void) //커서 깜박거림 제거 
 {
 	CONSOLE_CURSOR_INFO curInfo;
 	GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &curInfo);
-	curInfo.bVisible = 0;
+	curInfo.bVisible = 0; //hr:bvisible이 False이면 커서가 표시되지 않는다. 
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &curInfo);
 }
 
-void setCursor(int x, int y)
+//커서의 좌표를 (2,1)로 초기화
+void SetCursor(int x, int y)
 {
-	COORD pos = { x,y };
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+	COORD pos = { x,y };  //좌표 표시하는 구조체
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);//표준콘솔의 핸들값(ID)와 좌표 받아서 커서위치를 바꿈
 }
 
-COORD getCursor(void)
+//콘솔 화면 버퍼에 있는 커서의 좌표
+COORD GetCursor(void)
 {
 	COORD cur;
-	CONSOLE_SCREEN_BUFFER_INFO curInfo;
+	CONSOLE_SCREEN_BUFFER_INFO curInfo; //콘솔 화면 버퍼에 대한 정보
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &curInfo);
-	cur.X = curInfo.dwCursorPosition.X;
+	cur.X = curInfo.dwCursorPosition.X;//콘솔 화면 버퍼에 있는 커서의 좌표
 	cur.Y = curInfo.dwCursorPosition.Y;
 	return cur;
+	/*화면 버퍼: 컴퓨터의 표시 화면.
+	나타나야 할 내용을 저장하는 기억 장소로
+	컴퓨터는 주기적으로 이 버퍼의 내용을 화면 접속기에 보내고
+	화면 접속기는 이를 받아서 지정된 장소에 그려줌으로써 화면이 계속 보이게 된다*/
 }
-//void showBlock(int rotation);
 
+//void showBlock(int rotation);
 void showBoard(void)
 {
 	int x, y;
@@ -243,14 +249,14 @@ void showBoard(void)
 	for (x = 1; x <= BOARD_WIDTH + 1; x++)
 	{
 		board[BOARD_HEIGHT][x] = 1; //board 배열 중앙 1인식
-		setCursor((BOARD_X)+x * 2, BOARD_Y + BOARD_HEIGHT);  //콘솔좌표
+		SetCursor((BOARD_X)+x * 2, BOARD_Y + BOARD_HEIGHT);  //콘솔좌표
 		printf("━");
 	}
 	//왼쪽 보드 라인
 	for (y = 0; y < BOARD_HEIGHT + 1; y++)
 	{
 		board[y][0] = 1; //board 배열 왼쪽 1인식
-		setCursor(BOARD_X, BOARD_Y + y);
+		SetCursor(BOARD_X, BOARD_Y + y);
 		if (y == BOARD_HEIGHT)
 			printf("┗");
 		else
@@ -260,7 +266,7 @@ void showBoard(void)
 	for (y = 0; y < BOARD_HEIGHT + 1; y++)
 	{
 		board[y][BOARD_WIDTH + 1] = 1; //board 배열 오른쪽 1인식
-		setCursor(BOARD_X + (BOARD_WIDTH + 2) * 2, BOARD_Y + y);
+		SetCursor(BOARD_X + (BOARD_WIDTH + 2) * 2, BOARD_Y + y);
 		if (y == BOARD_HEIGHT)
 			printf("┛");
 		else
@@ -270,10 +276,10 @@ void showBoard(void)
 	board[20][0] = 1;
 	board[20][11] = 1;
 	//보드판 숫자 보기
-	//setCursor(6,2);
+	//SetCursor(6,2);
 	//for(y=0; y<=BOARD_HEIGHT; y++){
 	// for(x=0; x<=BOARD_WIDTH+1; x++){
-	//  setCursor(4+(x*2),2+y);
+	//  SetCursor(4+(x*2),2+y);
 	//  printf("%d ",board[y][x]);
 	// }
 	// printf("\n");
@@ -284,7 +290,7 @@ void showBoard(void)
 //콘솔 좌표 → 배열 좌표 환산 함수
 void TransPos(int* arrX, int* arrY) {
 
-	COORD pos = getCursor(); //  현재 좌표로 구조체 초기화
+	COORD pos = GetCursor(); //  현재 좌표로 구조체 초기화
 
 	*arrX += pos.X; // 현재 x좌표 더하기 
 	*arrY += pos.Y; // 현재 y좌표 더하기
@@ -329,7 +335,7 @@ int IsCollision(int blockType, int moveX, int moveY) // blockType 변수는 블록 모
 void showBlock(int rotation)
 {
 	int x, y;
-	COORD cursor = getCursor();
+	COORD cursor = GetCursor();
 	int prove;
 	//int n=(rotation-1)%4;
 	prove = IsCollision(rotation, 0, 0);
@@ -339,12 +345,12 @@ void showBlock(int rotation)
 		{
 			for (x = 0; x < 4; x++)
 			{
-				setCursor(cursor.X + (x * 2), cursor.Y + y);
+				SetCursor(cursor.X + (x * 2), cursor.Y + y);
 				if (block[rotation][y][x] == 1)
 					printf("■");
 			}
 		}
-		setCursor(cursor.X, cursor.Y);
+		SetCursor(cursor.X, cursor.Y);
 	}
 }
 
@@ -352,7 +358,7 @@ void removeBlock(int rotation, int move1, int move2)
 {
 	int pr;
 	int x, y;
-	COORD cursor = getCursor();
+	COORD cursor = GetCursor();
 	pr = IsCollision(rotation, move1, move2);
 	if (pr == 0)
 	{
@@ -360,19 +366,19 @@ void removeBlock(int rotation, int move1, int move2)
 		{
 			for (x = 0; x < 4; x++)
 			{
-				setCursor(cursor.X + (x * 2), cursor.Y + y);
+				SetCursor(cursor.X + (x * 2), cursor.Y + y);
 				if (block[rotation][y][x] == 1)
 					printf(" ");
 			}
 		}
-		setCursor(cursor.X + move1, cursor.Y + move2);
+		SetCursor(cursor.X + move1, cursor.Y + move2);
 	}
 }
 
 /*콘솔에 새로 고정된 블록의 위치를 BOARD 배열에 반영*/
 void UpdateBoardArr(int blockType) //blockType은 블록의 모양을 의미하는 변수
 {
-	COORD pos = getCursor();//현재 커서의 좌표를 가져온다
+	COORD pos = GetCursor();//현재 커서의 좌표를 가져온다
 
 	//콘솔의 좌표를 BOARD 배열의 값으로 대응시키기 위한 조작
 	int boardXpos = (pos.X - BOARD_X) / 2;
@@ -405,7 +411,7 @@ void ShowUpdatedBoard() {
 	{
 		for (x = 1; x <= BOARD_WIDTH; x++)
 		{
-			setCursor(x * 2 + BOARD_X + 1, y + BOARD_Y);//board 배열의 값을 콘솔로 대응시키기 위한 조작,
+			SetCursor(x * 2 + BOARD_X + 1, y + BOARD_Y);//board 배열의 값을 콘솔로 대응시키기 위한 조작,
 					//+1을 하는 이유: 블록의 x좌표가 홀수 단위로 설정되어있으므로, 홀수로 맞춰주기 위해.
 			if (board[y][x] == 1)
 				printf("■");
@@ -418,11 +424,11 @@ void ShowUpdatedBoard() {
 //레벨 스코어 출력
 void scoreLevel(void)
 {
-	setCursor(40, 3);
+	SetCursor(40, 3);
 	printf("★레벨10 게임 클리어★");
-	setCursor(40, 5);
+	SetCursor(40, 5);
 	printf("레벨:%d\n", level);
-	setCursor(40, 7);
+	SetCursor(40, 7);
 	printf("점수:%d\n", score);
 }
 
@@ -445,7 +451,7 @@ void ClearLine(int line)//column에는 삭제할 line의 y좌표가 전달됨.
 	for (x = 1; x < BOARD_WIDTH + 1; x++)
 	{
 		//board 배열의 값을 콘솔로 대응시키기 위해 board 배열의 index를 콘솔 좌표로 변환
-		setCursor(x * 2 + BOARD_X, line + BOARD_Y);
+		SetCursor(x * 2 + BOARD_X, line + BOARD_Y);
 		printf("  ");//블록이 x좌표 2칸을 차지하므로 공백 2칸으로 대체
 	}
 }
@@ -490,7 +496,7 @@ void CheckLine(void)
 
 int GameOver(int blcokTpye)
 {
-	setCursor(CBLOCK_X, CBLOCK_Y); //블록 생성 위치 설정
+	SetCursor(CBLOCK_X, CBLOCK_Y); //블록 생성 위치 설정
 	if (IsCollision(blcokTpye, 0, 0))
 		return 1; //게임 끝
 	else
@@ -513,59 +519,34 @@ void UpdateBlock(int kb, int* pblocktype)// kb: 키보드값, pblocktype = 블록타입�
 	int updateBlock = 0; //다음 블록 저장
 	int blockType = *pblocktype; //현재 블록타입 저장
 
-	//COORD cursor = getCursor();
+	//COORD cursor = GetCursor();
 
 	switch (kb)    //switch-case구문을 이용하여 (왼쪽,오른쪽,위,아래,스페이스) 행동지시
 	{
 	case LEFT:        //키보드 값이 왼쪽방향키 일때
-
 		removeBlock(blockType, -2, 0); //블록(잔상)을 지우고 커서를 x축 -2칸 움직임(왼쪽으로 2칸(="■"한칸)움직임)
 		showBlock(blockType);//블록을 화면에 출력
-		/*
-		prove=detect(blocktype, 2, 0);
-		if(prove==0){
-		   removeBlock(blocktype);
-		   setCursor(cursor.X -2, cursor.Y)
-		   showBlock(blocktype);
-		}
-		*/
-
 		break;
+
 	case RIGHT:      //키보드 값이 오른쪽방향키 일때
 		removeBlock(blockType, 2, 0); //블록(잔상)을 지우고 커서를 x축 +2칸 움직임(오른쪽으로 2칸(="■"한칸)움직임)
 		showBlock(blockType);//블록을 화면에 출력
-
-
-		/*
-		prove=detect(blocktype, 2, 0);
-		if(prove==0){
-		   removeBlock(blocktype);
-		   setCursor(cursor.X +2, cursor.Y)
-		   showBlock(blocktype);
-		}
-		*/
-
 		break;
+
 	case UP:       //키보드 값이 위쪽 방향키 일때
-
 	   // 첫수를구한다.
-	   //gw: nextblock에 현재 블록타입의 기본타입을 저장한다. 예를 들어 ㄴ블록의 타입은 ㄴ,┘,ㄱ,┌  총 4가지가 있고 k는 ㄴ을 저장하게 된다.(다른 블록도 마찬가지)
-
+	   //nextblock에 현재 블록타입의 기본타입을 저장한다. 예를 들어 ㄴ블록의 타입은 ㄴ,┘,ㄱ,┌  총 4가지가 있고 k는 ㄴ을 저장하게 된다.(다른 블록도 마찬가지)
 		updateBlock = blockType / 4;
 		updateBlock *= 4;
 
-		inintupdateblock(int* updateBlock,int bloackType){
-		   *updateBlock = blockType / 4;
-		   (*updateBlock) *= 4;
+		inintupdateblock(int* updateBlock, int bloackType) {
+			*updateBlock = blockType / 4;
+			(*updateBlock) *= 4;
 		}
-
 
 		// 다음수가 끝수이하인가? 
 		if ((blockType + 1) <= (updateBlock + 3)) //예를들어 ㄴ블록타입(ㄴ,┘,ㄱ,┌ )중에 k가 ┌(마지막타입)일경우 증가하면 다른 블록이 되므로 억제시킨다.
-
-		{
 			updateBlock = blockType + 1;         //마지막 타입이 아닐경우 현재 타입의 다음 타입을 k에 저장한다.
-		}
 
 		prove = IsCollision(updateBlock, 0, 0); //=다음타입 블록이 다른 블록이나 벽에 충돌하는지 검사
 
@@ -577,10 +558,12 @@ void UpdateBlock(int kb, int* pblocktype)// kb: 키보드값, pblocktype = 블록타입�
 			break;
 		}
 		break;
+
 	case DOWN:      //키보드 값이 아래쪽 방향키 일때
 		removeBlock(blockType, 0, 1);  //블록(잔상)을 지우고 커서를 y축 +2칸 움직임(아래쪽으로 2칸(="■"한칸)움직임)
 		showBlock(blockType);
 		break;
+
 	case SPACE:     //키보드 값이 스페이스키 일때
 		while (1)   //블록이 충돌이 발생할때까지 반복
 		{
@@ -593,9 +576,7 @@ void UpdateBlock(int kb, int* pblocktype)// kb: 키보드값, pblocktype = 블록타입�
 			}
 
 		}
-
 	}
-
 }
 
 void moveBlock(void)
@@ -628,18 +609,18 @@ void moveBlock(void)
 				break;
 
 			kb = _getch();//키보드 입력값 받아와 kb에 저장
-			UpdateBlock(kb,&blocktype);
+			UpdateBlock(kb, &blocktype);
 
-	
+
 		}
 	}
-	setCursor(35, 20);
+	SetCursor(35, 20);
 	printf("GAME OVER");
 }
 int main()
 {
-	removeCursor(); //커서 깜박이 제거
-	setCursor(2, 1); //보드표시 시작위치 설정
+	RemoveCursor(); //커서 깜박이 제거
+	SetCursor(2, 1); //보드표시 시작위치 설정
 	showBoard(); //보드 출력
 	scoreLevel();
 	moveBlock(); //보드 출력 움직임
