@@ -484,8 +484,9 @@ void CheckLine(void)
 
 int gameOver(int rotation)
 {
+	setCursor(CBLOCK_X, CBLOCK_Y); //블록 생성 위치 설정
 	if (detect(rotation, 0, 0))
-		return 5; //게임 끝
+		return 1; //게임 끝
 	else
 		return 0;
 }
@@ -508,7 +509,6 @@ void moveBlock(void)
 	/*게임 시작~끝*/
 	while (1)
 	{
-		setCursor(CBLOCK_X, CBLOCK_Y); //블록 생성 위치 설정
 		blockType = rand() % 7;//블록 모양을 임의로 결정하기 위해 추출하는 수 
 		blockType = blockType * 4; //blockType은 0~6 사이의 7개의 난수, 도형이 7개
 		if (gameWin())//레벨이 10이면 콘솔 종료
