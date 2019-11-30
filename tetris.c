@@ -504,6 +504,94 @@ int GameWin(void)
 		return 0;
 }
 
+void updateBlock(int kb, int* pblocktype)//gw :  kb: ¿¿¿¿, pblocktype = ¿¿¿¿¿ ¿¿
+{
+	int prove; // ¿¿¿¿
+	int updateblock = 0; //¿¿ ¿¿¿¿ ¿¿
+	int blocktype = *pblocktype;
+
+	//COORD cursor = getCursor();
+
+	switch (kb)    //gw: switch-case¿¿¿ ¿¿¿¿ (¿¿,¿¿¿,¿,¿¿,¿¿¿¿) ¿¿¿¿
+	{
+	case LEFT:        //gw: ¿¿¿ ¿¿ ¿¿¿¿¿ ¿¿
+		removeBlock(blocktype, -2, 0); //gw: ¿¿(¿¿)¿ ¿¿¿ ¿¿¿ x¿ -2¿ ¿¿¿(¿¿¿¿ 2¿(="¿"¿¿)¿¿¿)
+		showBlock(blocktype);//gw: ¿¿¿ ¿¿¿ ¿¿
+		/*
+		prove=detect(blocktype, 2, 0);
+		if(prove==0){
+		   removeBlock(blocktype);
+		   setCursor(cursor.X -2, cursor.Y)
+		   showBlock(blocktype);
+		}
+		*/
+
+		break;
+	case RIGHT:      //gw: ¿¿¿ ¿¿ ¿¿¿¿¿¿ ¿¿
+		removeBlock(blocktype, 2, 0); //gw: ¿¿(¿¿)¿ ¿¿¿ ¿¿¿ x¿ +2¿ ¿¿¿(¿¿¿¿¿ 2¿(="¿"¿¿)¿¿¿)
+		showBlock(blocktype);//gw: ¿¿¿ ¿¿¿ ¿¿
+
+
+		/*
+		prove=detect(blocktype, 2, 0);
+		if(prove==0){
+		   removeBlock(blocktype);
+		   setCursor(cursor.X +2, cursor.Y)
+		   showBlock(blocktype);
+		}
+		*/
+
+		break;
+	case UP:       //gw: ¿¿¿ ¿¿ ¿¿ ¿¿¿ ¿¿
+
+	   // ¿¿¿¿¿¿.
+	   //gw: nextblock¿ ¿¿ ¿¿¿¿¿ ¿¿¿¿¿ ¿¿¿¿. ¿¿ ¿¿ ¿¿¿¿ ¿¿¿ ¿,¿,¿,¿  ¿ 4¿¿¿ ¿¿ k¿ ¿¿ ¿¿¿¿ ¿¿.(¿¿ ¿¿¿ ¿¿¿¿)
+		updateblock = blocktype / 4;
+		updateblock *= 4;
+
+		inintupdateblock(int* updateblock,int bloacktype){
+		   *updateblock = blocktype / 4;
+		   (*updateblock) *= 4;
+		}
+
+
+		// ¿¿¿¿ ¿¿¿¿¿¿?
+		if ((blocktype + 1) <= (updateblock + 3)) //gw: ¿¿¿¿ ¿¿¿¿¿(¿,¿,¿,¿ )¿¿ k¿ ¿(¿¿¿¿¿)¿¿¿ ¿¿¿¿ ¿¿ ¿¿¿ ¿¿¿ ¿¿¿¿¿.
+		{
+			updateblock = blocktype + 1;         //gw: ¿¿¿ ¿¿¿ ¿¿¿¿ ¿¿ ¿¿¿ ¿¿ ¿¿¿ k¿ ¿¿¿¿.
+		}
+
+		prove = detect(updateblock, 0, 0); //gw: ¿¿¿¿ ¿¿¿ ¿¿ ¿¿¿¿ ¿¿ ¿¿¿¿¿ ¿¿
+
+		if (prove == 0)          //gw: ¿¿¿¿ ¿¿¿ ¿¿ ¿¿¿¿ ¿¿ ¿¿¿¿ ¿¿¿¿
+		{
+			removeBlock(blocktype, 0, 0); //gw: ¿¿(¿¿)¿ ¿¿¿ ¿¿¿ ¿¿
+			showBlock(updateblock);  //gw: ¿¿¿ ¿¿¿ ¿¿
+			*pblocktype = updateblock; //gw: ¿¿¿¿¿ ¿¿¿¿¿¿ ¿¿
+			break;
+		}
+		break;
+	case DOWN:      //gw: ¿¿¿ ¿¿ ¿¿¿ ¿¿¿ ¿¿
+		removeBlock(blocktype, 0, 1);  //gw: ¿¿(¿¿)¿ ¿¿¿ ¿¿¿ y¿ +2¿ ¿¿¿(¿¿¿¿¿ 2¿(="¿"¿¿)¿¿¿)
+		showBlock(blocktype);
+		break;
+	case SPACE:     //gw: ¿¿¿ ¿¿ ¿¿¿¿¿ ¿¿
+		while (1)   //gw: ¿¿¿ ¿¿¿ ¿¿¿¿¿¿ ¿¿
+		{
+			removeBlock(blocktype, 0, 1);     //gw: ¿¿(¿¿)¿ ¿¿¿ ¿¿¿ y¿ +1¿ ¿¿¿(¿¿¿¿¿ 1¿(="¿"¿¿)¿¿¿)
+			if (detect(blocktype, 0, 1) == 1) //gw: ¿¿¿ ¿¿ ¿¿¿¿ ¿¿ ¿¿¿¿¿
+			{
+				showBlock(blocktype);         //gw: ¿¿¿ ¿¿¿ ¿¿
+				boardConginition(blocktype, 0, 0); //gw: ¿¿¿ ¿¿¿¿
+				break;
+			}
+
+		}
+
+	}
+
+}
+
 void moveBlock(void)
 {
 	int blockType;
@@ -534,52 +622,9 @@ void moveBlock(void)
 				break;
 
 			kb = _getch();//Å°º¸µå ÀÔ·Â°ª ¹Þ¾Æ¿Í kb¿¡ ÀúÀå
+			updateBlock(kb,&blocktype);
 
-			/*¹æÇâÅ°*/
-			switch (kb)
-			{
-			case LEFT:
-				removeBlock(blockType, -2, 0);
-				showBlock(blockType);
-				break;
-			case RIGHT:
-				removeBlock(blockType, 2, 0);
-				showBlock(blockType);
-				break;
-			case UP:
-				// Ã¹¼ö¸¦±¸ÇÑ´Ù.
-				k = blockType / 4;
-				k *= 4;
-				// ´ÙÀ½¼ö°¡ ³¡¼öÀÌÇÏÀÎ°¡?
-				if ((blockType + 1) <= (k + 3))
-				{
-					k = blockType + 1;
-				}
-				prove = IsCollision(k, 0, 0);
-				if (prove == 0)
-				{
-					removeBlock(blockType, 0, 0);
-					blockType = k;
-					showBlock(blockType);
-					break;
-				}
-				break;
-			case DOWN:
-				removeBlock(blockType, 0, 2);
-				//showBlock(blockType);
-				break;
-			case SPACE:
-				while (1)
-				{
-					removeBlock(blockType, 0, 1);
-					if (IsCollision(blockType, 0, 1) == 1)
-					{
-						showBlock(blockType);
-						boardConginition(blockType, 0, 0);
-						break;
-					}
-				}
-			}
+	
 		}
 	}
 	setCursor(35, 20);
