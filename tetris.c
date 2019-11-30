@@ -282,22 +282,27 @@ void showBoard(void)
 	puts(" ");
 }
 
-//removeBlock함수 작동전 벽인 or 아닌지확인
-int detect(int blcokTpye, int move1, int move2)
+int IsCollision(int blockType, int moveX, int moveY) //minju blockType 변수는 블록 모양을 의미 moveX, moveY는 이동예정 x,y좌표
 {
-	int x, y;
-	int arrX, arrY; //배열좌표저장
-	COORD pos = getCursor();
-	arrX = pos.X + move1;
-	arrY = pos.Y + move2;
-	arrX = (arrX / 2) - 2;
-	arrY = arrY - BOARD_Y;
-	for (y = 0; y < 4; y++)
+	int x, y; //minju 비교용 임시 좌표 변수
+	int arrX = 0, arrY = 0; //배열좌표저장 변수 
+
+	arrX += moveX; //minju 이동예정 x좌표 저장 
+	arrY += moveY; //minju 이동예정 y좌표 저장
+
+	TransPos(&arrX, &arrY); //좌표 환산 함수 호출
+
+	for (y = 0; y < 4; y++) //minju  4x4번 총 16번 반복(블록크기인 4x4 네모 스캔)
 	{
 		for (x = 0; x < 4; x++)
 		{
-			if ((block[blcokTpye][y][x] == 1) && board[arrY + y][arrX + x] == 1)
-				return 1;  //보드와 벽돌 겹침
+			if ((block[blockType][y][x] == 1) && board[arrY + y][arrX + x] == 1)//minju 현재 위치에서 blockType모양 블록이 x나 y축으로 move할 예정인 경우 
+												   // 현재 위치에서 move예정인 좌표에 4x4 테두리 안에 blockType모양 블록을 가상으로 그렸다고 생각했을 때  
+												   // 그 4x4테두리 안에 있는 보드판 블록이 4x4 blockType모양 블록과 한개라도 겹치면 겹쳤다고 판별  
+
+
+
+				return 1;  //minju 보드에 쌓여있는 블록이나 보드판 테두리 블록과 벽돌 겹친다고 판별
 		}
 	}
 	return 0;  //겹치지 않음
@@ -326,7 +331,7 @@ void showBlock(int rotation)
 	COORD cursor = getCursor();
 	int prove;
 	//int n=(rotation-1)%4;
-	prove = detect(rotation, 0, 0);
+	prove = IsCollision(rotation, 0, 0);
 	if (prove == 0) {
 		//콘솔창위치 설정, 배열값에서 1은 ■출력,0은 출력없음
 		for (y = 0; y < 4; y++)
@@ -347,7 +352,7 @@ void removeBlock(int rotation, int move1, int move2)
 	int pr;
 	int x, y;
 	COORD cursor = getCursor();
-	pr = detect(rotation, move1, move2);
+	pr = IsCollision(rotation, move1, move2);
 	if (pr == 0)
 	{
 		for (y = 0; y < 4; y++)
@@ -485,7 +490,7 @@ void CheckLine(void)
 int GameOver(int blcokTpye)
 {
 	setCursor(CBLOCK_X, CBLOCK_Y); //블록 생성 위치 설정
-	if (detect(blcokTpye, 0, 0))
+	if (IsCollision(blcokTpye, 0, 0))
 		return 1; //게임 끝
 	else
 		return 0;
@@ -550,7 +555,7 @@ void moveBlock(void)
 				{
 					k = blockType + 1;
 				}
-				prove = detect(k, 0, 0);
+				prove = IsCollision(k, 0, 0);
 				if (prove == 0)
 				{
 					removeBlock(blockType, 0, 0);
@@ -567,7 +572,7 @@ void moveBlock(void)
 				while (1)
 				{
 					removeBlock(blockType, 0, 1);
-					if (detect(blockType, 0, 1) == 1)
+					if (IsCollision(blockType, 0, 1) == 1)
 					{
 						showBlock(blockType);
 						boardConginition(blockType, 0, 0);
