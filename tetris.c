@@ -505,7 +505,7 @@ void moveBlock(void)
 	int kb;
 	int prove;
 	srand((unsigned int)time(NULL)); //srand() 인자 기반 난수를 초기화
-	int c = 2;
+
 	/*게임 시작~끝*/
 	while (1)
 	{
