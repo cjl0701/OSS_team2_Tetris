@@ -241,18 +241,38 @@ COORD GetCursor(void)
 	È­¸é Á¢¼Ó±â´Â ÀÌ¸¦ ¹Þ¾Æ¼­ ÁöÁ¤µÈ Àå¼Ò¿¡ ±×·ÁÁÜÀ¸·Î½á È­¸éÀÌ °è¼Ó º¸ÀÌ°Ô µÈ´Ù*/
 }
 
-//void showBlock(int rotation);
-void showBoard(void)
+//»ç¿ë¹æ¹ý
+void HowToUse()
 {
+	setCursor(40, 9);
+	printf("¡Ú»ç¿ë¹æ¹ý¡Ú");
+	setCursor(40, 11);
+	printf("¡ç:¿ÞÂÊÀ¸·Î ÀÌµ¿");
+	setCursor(40, 13);
+	printf("¡æ:¿À¸¥ÂÊÀ¸·Î ÀÌµ¿");
+	setCursor(40, 15);
+	printf("¡è:¸ð¾ç È¸Àü");
+	setCursor(40, 17);
+	printf("¡é:ºü¸£°Ô ³»¸²");
+	setCursor(40, 19);
+	printf("spacebar:¹Ù·Î ³»¸²");
+}
+
+void ShowBoard(void)
+{
+	setCursor(2, 1); //º¸µåÇ¥½Ã ½ÃÀÛÀ§Ä¡ ¼³Á¤
 	int x, y;
 	//Áß¾Ó º¸µå ¶óÀÎ
 	for (x = 1; x <= BOARD_WIDTH + 1; x++)
 	{
 		board[BOARD_HEIGHT][x] = 1; //board ¹è¿­ Áß¾Ó 1ÀÎ½Ä
-		SetCursor((BOARD_X)+x * 2, BOARD_Y + BOARD_HEIGHT);  //ÄÜ¼ÖÁÂÇ¥
+		setCursor((BOARD_X)+x * 2 + 1, BOARD_Y + BOARD_HEIGHT);  //ÄÜ¼ÖÁÂÇ¥
 		printf("¦¬");
-	}
-	//¿ÞÂÊ º¸µå ¶óÀÎ
+	}/*x¸¦ 1ºÎÅÍ º¸µåÀÇ Å©±â¸¸Å­ for¹®À» µ¹·ÁÁÖ°í board¹è¿­¿¡  1·Î ¹Ù²ãÁÖ°í
+ setCursor¸¦ ÅëÇØ¼­ x¿¡´Ù°¡ 2¸¦ °öÇØÁÖ´Âµ¥ ÀÌÀ¯´Â °öÇÏÁö ¾ÊÀ¸¸é ¹Ý¸¸ Ãâ·Â µÇ¹Ç·Î 2¸¦ °öÇØÁá´Ù.
+ ±×¸®°í ÁÂÇ¥¿¡´Ù°¡ °æ°è¼±À» ±×·ÁÁØ´Ù*/
+
+ //¿ÞÂÊ º¸µå ¶óÀÎ
 	for (y = 0; y < BOARD_HEIGHT + 1; y++)
 	{
 		board[y][0] = 1; //board ¹è¿­ ¿ÞÂÊ 1ÀÎ½Ä
@@ -262,16 +282,21 @@ void showBoard(void)
 		else
 			printf("¦­");
 	}
-	//¿À¸¥ÂÊ º¸µå ¶óÀÎ
+
+	/*y¸¦ 0ºÎÅÍ ³ôÀÌ¸¸Å­ for¹®À» µ¹·ÁÁÖ°í board¹è¿­¿¡¼­ ¿ÞÂÊ ¶óÀÎÀ» 1·Î ¹Ù²ãÁÖ°í y°¡ º¸µåÀÇ ³ôÀÌ¶û °°À¸¸é
+  ¡¯¦±¡¯À» Ãâ·ÂÇÏ°í ¾Æ´Ï¸é ¡®¦­¡¯À» Ãâ·ÂÇÑ´Ù.*/
+
+  //¿À¸¥ÂÊ º¸µå ¶óÀÎ
 	for (y = 0; y < BOARD_HEIGHT + 1; y++)
 	{
 		board[y][BOARD_WIDTH + 1] = 1; //board ¹è¿­ ¿À¸¥ÂÊ 1ÀÎ½Ä
-		SetCursor(BOARD_X + (BOARD_WIDTH + 2) * 2, BOARD_Y + y);
+		setCursor(BOARD_X - 1 + (BOARD_WIDTH + 2) * 2, BOARD_Y + y);
 		if (y == BOARD_HEIGHT)
 			printf("¦°");
 		else
 			printf("¦­");
 	}
+
 	//¸ð¼­¸®°ª °ª º¯°æ
 	board[20][0] = 1;
 	board[20][11] = 1;
@@ -286,7 +311,6 @@ void showBoard(void)
 	//}
 	puts(" ");
 }
-
 //ÄÜ¼Ö ÁÂÇ¥ ¡æ ¹è¿­ ÁÂÇ¥ È¯»ê ÇÔ¼ö
 void TransPos(int* arrX, int* arrY) {
 
@@ -299,7 +323,7 @@ void TransPos(int* arrX, int* arrY) {
 	*arrY = *arrY - BOARD_Y; // ÄÜ¼ÖÁÂÇ¥->¹è¿­ Çà º¯È¯°ª
 
 	/*  Ä¿¼­ xÁÂÇ¥´Â 2´ç 1ÀÌ¶ó°í °è»ê(ºí·ÏÅ©±â°¡ 2¶ó¼­)ÇÏ±â ¶§¹®¿¡ ¹è¿­·Î Ç¥ÇöÇÒ¶§´Â
-	   ÄÜ¼ÖÁÂÇ¥¿¡ /2¸¦ ÇÏ°í, xÁÂÇ¥¿Í yÁÂÇ¥¿¡ -2¸¦ ÇÏ´Â ÀÌÀ¯´Â Ã³À½¿¡ º¸µå Ãâ·Â(showBoard())ÇÒ¶§
+	   ÄÜ¼ÖÁÂÇ¥¿¡ /2¸¦ ÇÏ°í, xÁÂÇ¥¿Í yÁÂÇ¥¿¡ -2¸¦ ÇÏ´Â ÀÌÀ¯´Â Ã³À½¿¡ º¸µå Ãâ·Â(ShowBoard())ÇÒ¶§
 	   xÁÂÇ¥ 2Ä­(ÄÜ¼ÖÁÂÇ¥ ±âÁØÀº 4Ä­) yÁÂÇ¥·Î 2Ä­ ÀÌµ¿ ÈÄ Ãâ·ÂÇß±â ¶§¹®ÀÌ´Ù. */
 }
 
@@ -320,9 +344,6 @@ int IsCollision(int blockType, int moveX, int moveY) // blockType º¯¼ö´Â ºí·Ï ¸ð
 			if ((block[blockType][y][x] == 1) && board[arrY + y][arrX + x] == 1)// ÇöÀç À§Ä¡¿¡¼­ blockType¸ð¾ç ºí·ÏÀÌ x³ª yÃàÀ¸·Î moveÇÒ ¿¹Á¤ÀÎ °æ¿ì 
 												   // ÇöÀç À§Ä¡¿¡¼­ move¿¹Á¤ÀÎ ÁÂÇ¥¿¡ 4x4 Å×µÎ¸® ¾È¿¡ blockType¸ð¾ç ºí·ÏÀ» °¡»óÀ¸·Î ±×·È´Ù°í »ý°¢ÇßÀ» ¶§  
 												   // ±× 4x4Å×µÎ¸® ¾È¿¡ ÀÖ´Â º¸µåÆÇ ºí·ÏÀÌ 4x4 blockType¸ð¾ç ºí·Ï°ú ÇÑ°³¶óµµ °ãÄ¡¸é °ãÃÆ´Ù°í ÆÇº°  
-
-
-
 				return 1;  // º¸µå¿¡ ½×¿©ÀÖ´Â ºí·ÏÀÌ³ª º¸µåÆÇ Å×µÎ¸® ºí·Ï°ú º®µ¹ °ãÄ£´Ù°í ÆÇº°
 		}
 	}
@@ -332,12 +353,11 @@ int IsCollision(int blockType, int moveX, int moveY) // blockType º¯¼ö´Â ºí·Ï ¸ð
 
 
 //º®µ¹»ý¼º
-void showBlock(int rotation)
+void ShowBlock(int rotation)
 {
 	int x, y;
 	COORD cursor = GetCursor();
 	int prove;
-	//int n=(rotation-1)%4;
 	prove = IsCollision(rotation, 0, 0);
 	if (prove == 0) {
 		//ÄÜ¼ÖÃ¢À§Ä¡ ¼³Á¤, ¹è¿­°ª¿¡¼­ 1Àº ¡áÃâ·Â,0Àº Ãâ·Â¾øÀ½
@@ -345,7 +365,7 @@ void showBlock(int rotation)
 		{
 			for (x = 0; x < 4; x++)
 			{
-				SetCursor(cursor.X + (x * 2), cursor.Y + y);
+				SetCursor(cursor.X + (x * 2), cursor.Y + y);//x´Â Á¼¾Æ¼­ 2Ä­
 				if (block[rotation][y][x] == 1)
 					printf("¡á");
 			}
@@ -353,7 +373,6 @@ void showBlock(int rotation)
 		SetCursor(cursor.X, cursor.Y);
 	}
 }
-
 void removeBlock(int rotation, int move1, int move2)
 {
 	int pr;
@@ -422,7 +441,7 @@ void ShowUpdatedBoard() {
 }
 
 //·¹º§ ½ºÄÚ¾î Ãâ·Â
-void scoreLevel(void)
+void ScoreLevel(struct option* po)
 {
 	SetCursor(40, 3);
 	printf("¡Ú·¹º§10 °ÔÀÓ Å¬¸®¾î¡Ú");
@@ -433,15 +452,16 @@ void scoreLevel(void)
 }
 
 //·¹º§ ½ºÄÚ¾î °è»ê
-void countScore(void)
+void CountScore(struct option* po)
 {
-	score += 10;
-	if (score % 30 == 0)
+	po->score += 10;
+	if (po->score % 30 == 0)
 	{
-		level += 1;
-		speed -= 30;
+		po->level += 1;
+		po->speed += 30;
+
 	}
-	scoreLevel();
+	ScoreLevel(po);
 }
 
 /*ÇÑ lineÀÌ ´Ù Â÷¸é ÇØ´ç ¶óÀÎÀ» Áö¿î´Ù */
@@ -525,12 +545,12 @@ void UpdateBlock(int kb, int* pblocktype)// kb: Å°º¸µå°ª, pblocktype = ºí·ÏÅ¸ÀÔÀ
 	{
 	case LEFT:        //Å°º¸µå °ªÀÌ ¿ÞÂÊ¹æÇâÅ° ÀÏ¶§
 		removeBlock(blockType, -2, 0); //ºí·Ï(ÀÜ»ó)À» Áö¿ì°í Ä¿¼­¸¦ xÃà -2Ä­ ¿òÁ÷ÀÓ(¿ÞÂÊÀ¸·Î 2Ä­(="¡á"ÇÑÄ­)¿òÁ÷ÀÓ)
-		showBlock(blockType);//ºí·ÏÀ» È­¸é¿¡ Ãâ·Â
+		ShowBlock(blockType);//ºí·ÏÀ» È­¸é¿¡ Ãâ·Â
 		break;
 
 	case RIGHT:      //Å°º¸µå °ªÀÌ ¿À¸¥ÂÊ¹æÇâÅ° ÀÏ¶§
 		removeBlock(blockType, 2, 0); //ºí·Ï(ÀÜ»ó)À» Áö¿ì°í Ä¿¼­¸¦ xÃà +2Ä­ ¿òÁ÷ÀÓ(¿À¸¥ÂÊÀ¸·Î 2Ä­(="¡á"ÇÑÄ­)¿òÁ÷ÀÓ)
-		showBlock(blockType);//ºí·ÏÀ» È­¸é¿¡ Ãâ·Â
+		ShowBlock(blockType);//ºí·ÏÀ» È­¸é¿¡ Ãâ·Â
 		break;
 
 	case UP:       //Å°º¸µå °ªÀÌ À§ÂÊ ¹æÇâÅ° ÀÏ¶§
@@ -553,7 +573,7 @@ void UpdateBlock(int kb, int* pblocktype)// kb: Å°º¸µå°ª, pblocktype = ºí·ÏÅ¸ÀÔÀ
 		if (prove == 0)          //´ÙÀ½Å¸ÀÔ ºí·ÏÀÌ ´Ù¸¥ ºí·ÏÀÌ³ª º®¿¡ Ãæµ¿ÇÏÁö ¾Ê´Â´Ù¸é
 		{
 			removeBlock(blockType, 0, 0); //ºí·Ï(ÀÜ»ó)À» Áö¿ì°í Ä¿¼­´Â °íÁ¤         
-			showBlock(updateBlock);  //ºí·ÏÀ» È­¸é¿¡ Ãâ·Â
+			ShowBlock(updateBlock);  //ºí·ÏÀ» È­¸é¿¡ Ãâ·Â
 			*pblocktype = updateBlock; //ºí·ÏÅ¸ÀÔÀ» ´ÙÀ½ºí·°À¸·Î ±³Ã¼
 			break;
 		}
@@ -561,7 +581,7 @@ void UpdateBlock(int kb, int* pblocktype)// kb: Å°º¸µå°ª, pblocktype = ºí·ÏÅ¸ÀÔÀ
 
 	case DOWN:      //Å°º¸µå °ªÀÌ ¾Æ·¡ÂÊ ¹æÇâÅ° ÀÏ¶§
 		removeBlock(blockType, 0, 1);  //ºí·Ï(ÀÜ»ó)À» Áö¿ì°í Ä¿¼­¸¦ yÃà +2Ä­ ¿òÁ÷ÀÓ(¾Æ·¡ÂÊÀ¸·Î 2Ä­(="¡á"ÇÑÄ­)¿òÁ÷ÀÓ)
-		showBlock(blockType);
+		ShowBlock(blockType);
 		break;
 
 	case SPACE:     //Å°º¸µå °ªÀÌ ½ºÆäÀÌ½ºÅ° ÀÏ¶§
@@ -570,7 +590,7 @@ void UpdateBlock(int kb, int* pblocktype)// kb: Å°º¸µå°ª, pblocktype = ºí·ÏÅ¸ÀÔÀ
 			removeBlock(blockType, 0, 1);     //ºí·Ï(ÀÜ»ó)À» Áö¿ì°í Ä¿¼­¸¦ yÃà +1Ä­ ¿òÁ÷ÀÓ(¾Æ·¡ÂÊÀ¸·Î 1Ä­(="¡á"ÇÑÄ­)¿òÁ÷ÀÓ)
 			if (IsCollision(blockType, 0, 1) == 1) //ºí·°ÀÌ ´Ù¸¥ ºí·ÏÀÌ³ª º®¿¡ Ãæµ¹ÇÑ´Ù¸é
 			{
-				showBlock(blockType);         //ºí·ÏÀ» È­¸é¿¡ Ãâ·Â
+				ShowBlock(blockType);         //ºí·ÏÀ» È­¸é¿¡ Ãâ·Â
 				UpdateBoardArr(blockType, 0, 0); //ºí·ÏÀ» °íÁ¤½ÃÅ´
 				break;
 			}
@@ -592,7 +612,7 @@ void moveBlock(void)
 		blockType = rand() % 7;//ºí·Ï ¸ð¾çÀ» ÀÓÀÇ·Î °áÁ¤ÇÏ±â À§ÇØ ÃßÃâÇÏ´Â ¼ö 
 		blockType = blockType * 4; //blockTypeÀº 0~6 »çÀÌÀÇ 7°³ÀÇ ³­¼ö, µµÇüÀÌ 7°³
 
-		showBlock(blockType);//³­¼ö·Î ÃßÃâÇÑ blockTypeÀº ºí·ÏÀÇ Á¾·ù¸¦ ÀÇ¹Ì(block[blockType][4][4])
+		ShowBlock(blockType);//³­¼ö·Î ÃßÃâÇÑ blockTypeÀº ºí·ÏÀÇ Á¾·ù¸¦ ÀÇ¹Ì(block[blockType][4][4])
 		/*ºí·Ï ÇÑ°³ À§~¹Ø ÀÌµ¿*/
 		while (1)
 		{
