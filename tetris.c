@@ -3,28 +3,28 @@
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
-#define BOARD_HEIGHT 20 // ¦­°³¼ö
-#define BOARD_WIDTH 10  // ¦¬°³¼ö
-#define BOARD_X 4 //º¸µå ¿­ xÁÂÇ¥
-#define BOARD_Y 2 //º¸µå Çà yÁÂÇ¥
+#define BOARD_HEIGHT 20 // â”ƒê°œìˆ˜
+#define BOARD_WIDTH 10  // â”ê°œìˆ˜
+#define BOARD_X 4 //ë³´ë“œ ì—´ xì¢Œí‘œ
+#define BOARD_Y 2 //ë³´ë“œ í–‰ yì¢Œí‘œ
 #define CBLOCK_X 13
 #define CBLOCK_Y 2
-#define DELAY 100//Áö¿¬
-#define RAND 4//³­¼ö
+#define DELAY 100//ì§€ì—°
+#define RAND 4//ë‚œìˆ˜
 #define LEFT 75
 #define RIGHT 77
 #define UP 72
 #define DOWN 80
 #define SPACE 32
-int static score = 0; //°ÔÀÓÁ¡¼ö
-int static level = 1; //°ÔÀÓ·¹º§
+int static score = 0; //ê²Œìž„ì ìˆ˜
+int static level = 1; //ê²Œìž„ë ˆë²¨
 int static speed = 180;
 
 
 int board[BOARD_HEIGHT + 1][BOARD_WIDTH + 2] = { 0, };
-int block[][4][4] = { //cjl:4x4 2Â÷¿ø ¹è¿­·Î µµÇüÇ¥½Ã-> 2Â÷¿ø ¹è¿­ÀÇ ¹è¿­->3Â÷¿ø ¹è¿­
-	/*¡á
-	  ¡á¡á¡á*/
+int block[][4][4] = { //cjl:4x4 2ì°¨ì› ë°°ì—´ë¡œ ë„í˜•í‘œì‹œ-> 2ì°¨ì› ë°°ì—´ì˜ ë°°ì—´->3ì°¨ì› ë°°ì—´
+	/*â– 
+	  â– â– â– */
 	{
 	 { 0,0,0,0 },
 	 { 1,0,0,0 },
@@ -49,9 +49,9 @@ int block[][4][4] = { //cjl:4x4 2Â÷¿ø ¹è¿­·Î µµÇüÇ¥½Ã-> 2Â÷¿ø ¹è¿­ÀÇ ¹è¿­->3Â÷¿ø
 	 { 1,0,0,0 },
 	 { 0,0,0,0 } },
 
-	/* µÎ ¹øÂ° ºí·Ï
-	  ¡á
-	¡á¡á¡á     */
+	/* ë‘ ë²ˆì§¸ ë¸”ë¡
+	  â– 
+	â– â– â–      */
 	{
 	 { 0, 0, 0, 0 },
 	 { 0, 0, 1, 0 },
@@ -76,9 +76,9 @@ int block[][4][4] = { //cjl:4x4 2Â÷¿ø ¹è¿­·Î µµÇüÇ¥½Ã-> 2Â÷¿ø ¹è¿­ÀÇ ¹è¿­->3Â÷¿ø
 	 { 1, 1, 0, 0 },
 	 { 0, 0, 0, 0 } },
 
-	/* ¼¼ ¹øÂ° ºí·Ï
-	 ¡á
-	¡á¡á¡á    */
+	/* ì„¸ ë²ˆì§¸ ë¸”ë¡
+	 â– 
+	â– â– â–     */
 	{
 	 { 0, 0, 0, 0 },
 	 { 0, 1, 0, 0 },
@@ -103,8 +103,8 @@ int block[][4][4] = { //cjl:4x4 2Â÷¿ø ¹è¿­·Î µµÇüÇ¥½Ã-> 2Â÷¿ø ¹è¿­ÀÇ ¹è¿­->3Â÷¿ø
 	 { 0, 1, 1, 0 },
 	 { 0, 1, 0, 0 } },
 
-	/* ³× ¹øÂ° ºí·Ï
-	¡á¡á¡á¡á   */
+	/* ë„¤ ë²ˆì§¸ ë¸”ë¡
+	â– â– â– â–    */
 	{
 	 { 0, 1, 0, 0 },
 	 { 0, 1, 0, 0 },
@@ -129,9 +129,9 @@ int block[][4][4] = { //cjl:4x4 2Â÷¿ø ¹è¿­·Î µµÇüÇ¥½Ã-> 2Â÷¿ø ¹è¿­ÀÇ ¹è¿­->3Â÷¿ø
 	 { 1, 1, 1, 1 },
 	 { 0, 0, 0, 0 } },
 
-	/* ´Ù¼¸ ¹øÂ° ºí·Ï
-	¡á¡á
-	¡á¡á      */
+	/* ë‹¤ì„¯ ë²ˆì§¸ ë¸”ë¡
+	â– â– 
+	â– â–       */
 	{
 	 { 1, 1, 0, 0 },
 	 { 1, 1, 0, 0 },
@@ -156,21 +156,9 @@ int block[][4][4] = { //cjl:4x4 2Â÷¿ø ¹è¿­·Î µµÇüÇ¥½Ã-> 2Â÷¿ø ¹è¿­ÀÇ ¹è¿­->3Â÷¿ø
 	 { 0, 0, 0, 0 },
 	 { 0, 0, 0, 0 } },
 
-	/* ¿©¼¸ ¹øÂ° ºí·Ï
-	 ¡á¡á
-	¡á¡á      */
-	{
-	 { 0, 0, 0, 0 },
-	 { 0, 1, 1, 0 },
-	 { 1, 1, 0, 0 },
-	 { 0, 0, 0, 0 } },
-
-	{
-	 { 0, 1, 0, 0 },
-	 { 0, 1, 1, 0 },
-	 { 0, 0, 1, 0 },
-	 { 0, 0, 0, 0 } },
-
+	/* ì—¬ì„¯ ë²ˆì§¸ ë¸”ë¡
+	 â– â– 
+	â– â–       */
 	{
 	 { 0, 0, 0, 0 },
 	 { 0, 1, 1, 0 },
@@ -183,9 +171,21 @@ int block[][4][4] = { //cjl:4x4 2Â÷¿ø ¹è¿­·Î µµÇüÇ¥½Ã-> 2Â÷¿ø ¹è¿­ÀÇ ¹è¿­->3Â÷¿ø
 	 { 0, 0, 1, 0 },
 	 { 0, 0, 0, 0 } },
 
-	/* ÀÏ°ö ¹øÂ° ºí·Ï
-	¡á¡á
-	 ¡á¡á    */
+	{
+	 { 0, 0, 0, 0 },
+	 { 0, 1, 1, 0 },
+	 { 1, 1, 0, 0 },
+	 { 0, 0, 0, 0 } },
+
+	{
+	 { 0, 1, 0, 0 },
+	 { 0, 1, 1, 0 },
+	 { 0, 0, 1, 0 },
+	 { 0, 0, 0, 0 } },
+
+	/* ì¼ê³± ë²ˆì§¸ ë¸”ë¡
+	â– â– 
+	 â– â–     */
 	{
 	 { 0, 0, 0, 0 },
 	 { 1, 1, 0, 0 },
@@ -239,37 +239,37 @@ COORD getCursor(void)
 void showBoard(void)
 {
 	int x, y;
-	//Áß¾Ó º¸µå ¶óÀÎ
+	//ì¤‘ì•™ ë³´ë“œ ë¼ì¸
 	for (x = 1; x <= BOARD_WIDTH + 1; x++)
 	{
-		board[BOARD_HEIGHT][x] = 1; //board ¹è¿­ Áß¾Ó 1ÀÎ½Ä
-		setCursor((BOARD_X)+x * 2, BOARD_Y + BOARD_HEIGHT);  //ÄÜ¼ÖÁÂÇ¥
-		printf("¦¬");
+		board[BOARD_HEIGHT][x] = 1; //board ë°°ì—´ ì¤‘ì•™ 1ì¸ì‹
+		setCursor((BOARD_X)+x * 2, BOARD_Y + BOARD_HEIGHT);  //ì½˜ì†”ì¢Œí‘œ
+		printf("â”");
 	}
-	//¿ÞÂÊ º¸µå ¶óÀÎ
+	//ì™¼ìª½ ë³´ë“œ ë¼ì¸
 	for (y = 0; y < BOARD_HEIGHT + 1; y++)
 	{
-		board[y][0] = 1; //board ¹è¿­ ¿ÞÂÊ 1ÀÎ½Ä
+		board[y][0] = 1; //board ë°°ì—´ ì™¼ìª½ 1ì¸ì‹
 		setCursor(BOARD_X, BOARD_Y + y);
 		if (y == BOARD_HEIGHT)
-			printf("¦±");
+			printf("â”—");
 		else
-			printf("¦­");
+			printf("â”ƒ");
 	}
-	//¿À¸¥ÂÊ º¸µå ¶óÀÎ
+	//ì˜¤ë¥¸ìª½ ë³´ë“œ ë¼ì¸
 	for (y = 0; y < BOARD_HEIGHT + 1; y++)
 	{
-		board[y][BOARD_WIDTH + 1] = 1; //board ¹è¿­ ¿À¸¥ÂÊ 1ÀÎ½Ä
+		board[y][BOARD_WIDTH + 1] = 1; //board ë°°ì—´ ì˜¤ë¥¸ìª½ 1ì¸ì‹
 		setCursor(BOARD_X + (BOARD_WIDTH + 2) * 2, BOARD_Y + y);
 		if (y == BOARD_HEIGHT)
-			printf("¦°");
+			printf("â”›");
 		else
-			printf("¦­");
+			printf("â”ƒ");
 	}
-	//¸ð¼­¸®°ª °ª º¯°æ
+	//ëª¨ì„œë¦¬ê°’ ê°’ ë³€ê²½
 	board[20][0] = 1;
 	board[20][11] = 1;
-	//º¸µåÆÇ ¼ýÀÚ º¸±â
+	//ë³´ë“œíŒ ìˆ«ìž ë³´ê¸°
 	//setCursor(6,2);
 	//for(y=0; y<=BOARD_HEIGHT; y++){
 	// for(x=0; x<=BOARD_WIDTH+1; x++){
@@ -281,51 +281,51 @@ void showBoard(void)
 	puts(" ");
 }
 
-//ÄÜ¼Ö ÁÂÇ¥ ¡æ ¹è¿­ ÁÂÇ¥ È¯»ê ÇÔ¼ö
+//ì½˜ì†” ì¢Œí‘œ â†’ ë°°ì—´ ì¢Œí‘œ í™˜ì‚° í•¨ìˆ˜
 void TransPos(int* arrX, int* arrY) {
 
-	COORD pos = getCursor(); //  ÇöÀç ÁÂÇ¥·Î ±¸Á¶Ã¼ ÃÊ±âÈ­
+	COORD pos = getCursor(); //  í˜„ìž¬ ì¢Œí‘œë¡œ êµ¬ì¡°ì²´ ì´ˆê¸°í™”
 
-	*arrX += pos.X; // ÇöÀç xÁÂÇ¥ ´õÇÏ±â 
-	*arrY += pos.Y; // ÇöÀç yÁÂÇ¥ ´õÇÏ±â
+	*arrX += pos.X; // í˜„ìž¬ xì¢Œí‘œ ë”í•˜ê¸° 
+	*arrY += pos.Y; // í˜„ìž¬ yì¢Œí‘œ ë”í•˜ê¸°
 
-	*arrX = (*arrX / 2) - 2; // ÄÜ¼ÖÁÂÇ¥->¹è¿­ ¿­ º¯È¯°ª 
-	*arrY = *arrY - BOARD_Y; // ÄÜ¼ÖÁÂÇ¥->¹è¿­ Çà º¯È¯°ª
+	*arrX = (*arrX / 2) - 2; // ì½˜ì†”ì¢Œí‘œ->ë°°ì—´ ì—´ ë³€í™˜ê°’ 
+	*arrY = *arrY - BOARD_Y; // ì½˜ì†”ì¢Œí‘œ->ë°°ì—´ í–‰ ë³€í™˜ê°’
 
-	/*  Ä¿¼­ xÁÂÇ¥´Â 2´ç 1ÀÌ¶ó°í °è»ê(ºí·ÏÅ©±â°¡ 2¶ó¼­)ÇÏ±â ¶§¹®¿¡ ¹è¿­·Î Ç¥ÇöÇÒ¶§´Â
-	   ÄÜ¼ÖÁÂÇ¥¿¡ /2¸¦ ÇÏ°í, xÁÂÇ¥¿Í yÁÂÇ¥¿¡ -2¸¦ ÇÏ´Â ÀÌÀ¯´Â Ã³À½¿¡ º¸µå Ãâ·Â(showBoard())ÇÒ¶§
-	   xÁÂÇ¥ 2Ä­(ÄÜ¼ÖÁÂÇ¥ ±âÁØÀº 4Ä­) yÁÂÇ¥·Î 2Ä­ ÀÌµ¿ ÈÄ Ãâ·ÂÇß±â ¶§¹®ÀÌ´Ù. */
+	/*  ì»¤ì„œ xì¢Œí‘œëŠ” 2ë‹¹ 1ì´ë¼ê³  ê³„ì‚°(ë¸”ë¡í¬ê¸°ê°€ 2ë¼ì„œ)í•˜ê¸° ë•Œë¬¸ì— ë°°ì—´ë¡œ í‘œí˜„í• ë•ŒëŠ”
+	   ì½˜ì†”ì¢Œí‘œì— /2ë¥¼ í•˜ê³ , xì¢Œí‘œì™€ yì¢Œí‘œì— -2ë¥¼ í•˜ëŠ” ì´ìœ ëŠ” ì²˜ìŒì— ë³´ë“œ ì¶œë ¥(showBoard())í• ë•Œ
+	   xì¢Œí‘œ 2ì¹¸(ì½˜ì†”ì¢Œí‘œ ê¸°ì¤€ì€ 4ì¹¸) yì¢Œí‘œë¡œ 2ì¹¸ ì´ë™ í›„ ì¶œë ¥í–ˆê¸° ë•Œë¬¸ì´ë‹¤. */
 }
 
-int IsCollision(int blockType, int moveX, int moveY) // blockType º¯¼ö´Â ºí·Ï ¸ð¾çÀ» ÀÇ¹Ì moveX, moveY´Â ÀÌµ¿¿¹Á¤ x,yÁÂÇ¥
+int IsCollision(int blockType, int moveX, int moveY) // blockType ë³€ìˆ˜ëŠ” ë¸”ë¡ ëª¨ì–‘ì„ ì˜ë¯¸ moveX, moveYëŠ” ì´ë™ì˜ˆì • x,yì¢Œí‘œ
 {
-	int x, y; // ºñ±³¿ë ÀÓ½Ã ÁÂÇ¥ º¯¼ö
-	int arrX = 0, arrY = 0; //¹è¿­ÁÂÇ¥ÀúÀå º¯¼ö 
+	int x, y; // ë¹„êµìš© ìž„ì‹œ ì¢Œí‘œ ë³€ìˆ˜
+	int arrX = 0, arrY = 0; //ë°°ì—´ì¢Œí‘œì €ìž¥ ë³€ìˆ˜ 
 
-	arrX += moveX; // ÀÌµ¿¿¹Á¤ xÁÂÇ¥ ÀúÀå 
-	arrY += moveY; // ÀÌµ¿¿¹Á¤ yÁÂÇ¥ ÀúÀå
+	arrX += moveX; // ì´ë™ì˜ˆì • xì¢Œí‘œ ì €ìž¥ 
+	arrY += moveY; // ì´ë™ì˜ˆì • yì¢Œí‘œ ì €ìž¥
 
-	TransPos(&arrX, &arrY); //ÁÂÇ¥ È¯»ê ÇÔ¼ö È£Ãâ
+	TransPos(&arrX, &arrY); //ì¢Œí‘œ í™˜ì‚° í•¨ìˆ˜ í˜¸ì¶œ
 
-	for (y = 0; y < 4; y++) //  4x4¹ø ÃÑ 16¹ø ¹Ýº¹(ºí·ÏÅ©±âÀÎ 4x4 ³×¸ð ½ºÄµ)
+	for (y = 0; y < 4; y++) //  4x4ë²ˆ ì´ 16ë²ˆ ë°˜ë³µ(ë¸”ë¡í¬ê¸°ì¸ 4x4 ë„¤ëª¨ ìŠ¤ìº”)
 	{
 		for (x = 0; x < 4; x++)
 		{
-			if ((block[blockType][y][x] == 1) && board[arrY + y][arrX + x] == 1)// ÇöÀç À§Ä¡¿¡¼­ blockType¸ð¾ç ºí·ÏÀÌ x³ª yÃàÀ¸·Î moveÇÒ ¿¹Á¤ÀÎ °æ¿ì 
-												   // ÇöÀç À§Ä¡¿¡¼­ move¿¹Á¤ÀÎ ÁÂÇ¥¿¡ 4x4 Å×µÎ¸® ¾È¿¡ blockType¸ð¾ç ºí·ÏÀ» °¡»óÀ¸·Î ±×·È´Ù°í »ý°¢ÇßÀ» ¶§  
-												   // ±× 4x4Å×µÎ¸® ¾È¿¡ ÀÖ´Â º¸µåÆÇ ºí·ÏÀÌ 4x4 blockType¸ð¾ç ºí·Ï°ú ÇÑ°³¶óµµ °ãÄ¡¸é °ãÃÆ´Ù°í ÆÇº°  
+			if ((block[blockType][y][x] == 1) && board[arrY + y][arrX + x] == 1)// í˜„ìž¬ ìœ„ì¹˜ì—ì„œ blockTypeëª¨ì–‘ ë¸”ë¡ì´ xë‚˜ yì¶•ìœ¼ë¡œ moveí•  ì˜ˆì •ì¸ ê²½ìš° 
+												   // í˜„ìž¬ ìœ„ì¹˜ì—ì„œ moveì˜ˆì •ì¸ ì¢Œí‘œì— 4x4 í…Œë‘ë¦¬ ì•ˆì— blockTypeëª¨ì–‘ ë¸”ë¡ì„ ê°€ìƒìœ¼ë¡œ ê·¸ë ¸ë‹¤ê³  ìƒê°í–ˆì„ ë•Œ  
+												   // ê·¸ 4x4í…Œë‘ë¦¬ ì•ˆì— ìžˆëŠ” ë³´ë“œíŒ ë¸”ë¡ì´ 4x4 blockTypeëª¨ì–‘ ë¸”ë¡ê³¼ í•œê°œë¼ë„ ê²¹ì¹˜ë©´ ê²¹ì³¤ë‹¤ê³  íŒë³„  
 
 
 
-				return 1;  // º¸µå¿¡ ½×¿©ÀÖ´Â ºí·ÏÀÌ³ª º¸µåÆÇ Å×µÎ¸® ºí·Ï°ú º®µ¹ °ãÄ£´Ù°í ÆÇº°
+				return 1;  // ë³´ë“œì— ìŒ“ì—¬ìžˆëŠ” ë¸”ë¡ì´ë‚˜ ë³´ë“œíŒ í…Œë‘ë¦¬ ë¸”ë¡ê³¼ ë²½ëŒ ê²¹ì¹œë‹¤ê³  íŒë³„
 		}
 	}
-	return 0;  //°ãÄ¡Áö ¾ÊÀ½
+	return 0;  //ê²¹ì¹˜ì§€ ì•ŠìŒ
 }
 
 
 
-//º®µ¹»ý¼º
+//ë²½ëŒìƒì„±
 void showBlock(int rotation)
 {
 	int x, y;
@@ -334,14 +334,14 @@ void showBlock(int rotation)
 	//int n=(rotation-1)%4;
 	prove = IsCollision(rotation, 0, 0);
 	if (prove == 0) {
-		//ÄÜ¼ÖÃ¢À§Ä¡ ¼³Á¤, ¹è¿­°ª¿¡¼­ 1Àº ¡áÃâ·Â,0Àº Ãâ·Â¾øÀ½
+		//ì½˜ì†”ì°½ìœ„ì¹˜ ì„¤ì •, ë°°ì—´ê°’ì—ì„œ 1ì€ â– ì¶œë ¥,0ì€ ì¶œë ¥ì—†ìŒ
 		for (y = 0; y < 4; y++)
 		{
 			for (x = 0; x < 4; x++)
 			{
 				setCursor(cursor.X + (x * 2), cursor.Y + y);
 				if (block[rotation][y][x] == 1)
-					printf("¡á");
+					printf("â– ");
 			}
 		}
 		setCursor(cursor.X, cursor.Y);
@@ -369,16 +369,16 @@ void removeBlock(int rotation, int move1, int move2)
 	}
 }
 
-/*ÄÜ¼Ö¿¡ »õ·Î °íÁ¤µÈ ºí·ÏÀÇ À§Ä¡¸¦ BOARD ¹è¿­¿¡ ¹Ý¿µ*/
-void UpdateBoardArr(int blockType) //blockTypeÀº ºí·ÏÀÇ ¸ð¾çÀ» ÀÇ¹ÌÇÏ´Â º¯¼ö
+/*ì½˜ì†”ì— ìƒˆë¡œ ê³ ì •ëœ ë¸”ë¡ì˜ ìœ„ì¹˜ë¥¼ BOARD ë°°ì—´ì— ë°˜ì˜*/
+void UpdateBoardArr(int blockType) //blockTypeì€ ë¸”ë¡ì˜ ëª¨ì–‘ì„ ì˜ë¯¸í•˜ëŠ” ë³€ìˆ˜
 {
-	COORD pos = getCursor();//ÇöÀç Ä¿¼­ÀÇ ÁÂÇ¥¸¦ °¡Á®¿Â´Ù
+	COORD pos = getCursor();//í˜„ìž¬ ì»¤ì„œì˜ ì¢Œí‘œë¥¼ ê°€ì ¸ì˜¨ë‹¤
 
-	//ÄÜ¼ÖÀÇ ÁÂÇ¥¸¦ BOARD ¹è¿­ÀÇ °ªÀ¸·Î ´ëÀÀ½ÃÅ°±â À§ÇÑ Á¶ÀÛ
+	//ì½˜ì†”ì˜ ì¢Œí‘œë¥¼ BOARD ë°°ì—´ì˜ ê°’ìœ¼ë¡œ ëŒ€ì‘ì‹œí‚¤ê¸° ìœ„í•œ ì¡°ìž‘
 	int boardXpos = (pos.X - BOARD_X) / 2;
 	int boardYpos = pos.Y - BOARD_Y;
 
-	//BOARD¿¡ ºí·ÏÀÇ ¸ð¾çÀ» ¹Ý¿µ, ºí·ÏÀÌ 4*4 ÀÌÂ÷¿ø ¹è¿­·Î ÀÌ·ç¾îÁ®ÀÖ¾î¼­ 4¹ø¾¿ ¹Ýº¹ÇÏ´Â °Í.
+	//BOARDì— ë¸”ë¡ì˜ ëª¨ì–‘ì„ ë°˜ì˜, ë¸”ë¡ì´ 4*4 ì´ì°¨ì› ë°°ì—´ë¡œ ì´ë£¨ì–´ì ¸ìžˆì–´ì„œ 4ë²ˆì”© ë°˜ë³µí•˜ëŠ” ê²ƒ.
 	int x, y;
 	for (y = 0; y < 4; y++)
 		for (x = 0; x < 4; x++)
@@ -387,46 +387,46 @@ void UpdateBoardArr(int blockType) //blockTypeÀº ºí·ÏÀÇ ¸ð¾çÀ» ÀÇ¹ÌÇÏ´Â º¯¼ö
 
 }
 
-/*º®µ¹À» ¸ðµÎ Ã¤¿î lineÀ» Áö¿ì±â À§ÇØ ¾Æ·¡¼­ºÎÅÍ board¹è¿­ÀÇ °ªÀ» ÇÑÄ­¾¿ ³»¸²*/
+/*ë²½ëŒì„ ëª¨ë‘ ì±„ìš´ lineì„ ì§€ìš°ê¸° ìœ„í•´ ì•„ëž˜ì„œë¶€í„° boardë°°ì—´ì˜ ê°’ì„ í•œì¹¸ì”© ë‚´ë¦¼*/
 void BoardArrDown(int column) {
-	int y, x;//¹Ýº¹¹®À» À§ÇÑ º¯¼ö
+	int y, x;//ë°˜ë³µë¬¸ì„ ìœ„í•œ ë³€ìˆ˜
 
-	for (y = column; y >= 1; y--) //¿Ï¼ºÇÑ lineºÎÅÍ Ã¹¹øÂ° ¶óÀÎ±îÁö ¹Ýº¹
+	for (y = column; y >= 1; y--) //ì™„ì„±í•œ lineë¶€í„° ì²«ë²ˆì§¸ ë¼ì¸ê¹Œì§€ ë°˜ë³µ
 		for (x = 1; x <= BOARD_WIDTH; x++)
-			board[y][x] = board[y - 1][x];//À­ line¿¡ ÀúÀåµÈ °ªÀ» ¾Æ·¡ line¿¡ ´ëÀÔ
+			board[y][x] = board[y - 1][x];//ìœ— lineì— ì €ìž¥ëœ ê°’ì„ ì•„ëž˜ lineì— ëŒ€ìž…
 
 }
 
-/*º¯°æµÈ board ¹è¿­ÀÇ °ªÀ» ¹ÙÅÁÀ¸·Î ÄÜ¼Ö Ãâ·Â */
+/*ë³€ê²½ëœ board ë°°ì—´ì˜ ê°’ì„ ë°”íƒ•ìœ¼ë¡œ ì½˜ì†” ì¶œë ¥ */
 void ShowUpdatedBoard() {
-	int y, x;//¹Ýº¹¹®À» À§ÇÑ º¯¼ö
+	int y, x;//ë°˜ë³µë¬¸ì„ ìœ„í•œ ë³€ìˆ˜
 
 	for (y = 1; y <= BOARD_HEIGHT - 1; y++)
 	{
 		for (x = 1; x <= BOARD_WIDTH; x++)
 		{
-			setCursor(x * 2 + BOARD_X + 1, y + BOARD_Y);//board ¹è¿­ÀÇ °ªÀ» ÄÜ¼Ö·Î ´ëÀÀ½ÃÅ°±â À§ÇÑ Á¶ÀÛ,
-					//+1À» ÇÏ´Â ÀÌÀ¯: ºí·ÏÀÇ xÁÂÇ¥°¡ È¦¼ö ´ÜÀ§·Î ¼³Á¤µÇ¾îÀÖÀ¸¹Ç·Î, È¦¼ö·Î ¸ÂÃçÁÖ±â À§ÇØ.
+			setCursor(x * 2 + BOARD_X + 1, y + BOARD_Y);//board ë°°ì—´ì˜ ê°’ì„ ì½˜ì†”ë¡œ ëŒ€ì‘ì‹œí‚¤ê¸° ìœ„í•œ ì¡°ìž‘,
+					//+1ì„ í•˜ëŠ” ì´ìœ : ë¸”ë¡ì˜ xì¢Œí‘œê°€ í™€ìˆ˜ ë‹¨ìœ„ë¡œ ì„¤ì •ë˜ì–´ìžˆìœ¼ë¯€ë¡œ, í™€ìˆ˜ë¡œ ë§žì¶°ì£¼ê¸° ìœ„í•´.
 			if (board[y][x] == 1)
-				printf("¡á");
+				printf("â– ");
 			else
-				printf("  ");//board¹è¿­¿¡¼­ 1ÀÌ ¾Æ´Ñ ºÎºÐÀº ºóÄ­À¸·Î Ãâ·Â
+				printf("  ");//boardë°°ì—´ì—ì„œ 1ì´ ì•„ë‹Œ ë¶€ë¶„ì€ ë¹ˆì¹¸ìœ¼ë¡œ ì¶œë ¥
 		}
 	}
 }
 
-//·¹º§ ½ºÄÚ¾î Ãâ·Â
+//ë ˆë²¨ ìŠ¤ì½”ì–´ ì¶œë ¥
 void scoreLevel(void)
 {
 	setCursor(40, 3);
-	printf("¡Ú·¹º§10 °ÔÀÓ Å¬¸®¾î¡Ú");
+	printf("â˜…ë ˆë²¨10 ê²Œìž„ í´ë¦¬ì–´â˜…");
 	setCursor(40, 5);
-	printf("·¹º§:%d\n", level);
+	printf("ë ˆë²¨:%d\n", level);
 	setCursor(40, 7);
-	printf("Á¡¼ö:%d\n", score);
+	printf("ì ìˆ˜:%d\n", score);
 }
 
-//·¹º§ ½ºÄÚ¾î °è»ê
+//ë ˆë²¨ ìŠ¤ì½”ì–´ ê³„ì‚°
 void countScore(void)
 {
 	score += 10;
@@ -438,49 +438,49 @@ void countScore(void)
 	scoreLevel();
 }
 
-/*ÇÑ lineÀÌ ´Ù Â÷¸é ÇØ´ç ¶óÀÎÀ» Áö¿î´Ù */
-void ClearLine(int line)//column¿¡´Â »èÁ¦ÇÒ lineÀÇ yÁÂÇ¥°¡ Àü´ÞµÊ.
+/*í•œ lineì´ ë‹¤ ì°¨ë©´ í•´ë‹¹ ë¼ì¸ì„ ì§€ìš´ë‹¤ */
+void ClearLine(int line)//columnì—ëŠ” ì‚­ì œí•  lineì˜ yì¢Œí‘œê°€ ì „ë‹¬ë¨.
 {
 	int x;
 	for (x = 1; x < BOARD_WIDTH + 1; x++)
 	{
-		//board ¹è¿­ÀÇ °ªÀ» ÄÜ¼Ö·Î ´ëÀÀ½ÃÅ°±â À§ÇØ board ¹è¿­ÀÇ index¸¦ ÄÜ¼Ö ÁÂÇ¥·Î º¯È¯
+		//board ë°°ì—´ì˜ ê°’ì„ ì½˜ì†”ë¡œ ëŒ€ì‘ì‹œí‚¤ê¸° ìœ„í•´ board ë°°ì—´ì˜ indexë¥¼ ì½˜ì†” ì¢Œí‘œë¡œ ë³€í™˜
 		setCursor(x * 2 + BOARD_X, line + BOARD_Y);
-		printf("  ");//ºí·ÏÀÌ xÁÂÇ¥ 2Ä­À» Â÷ÁöÇÏ¹Ç·Î °ø¹é 2Ä­À¸·Î ´ëÃ¼
+		printf("  ");//ë¸”ë¡ì´ xì¢Œí‘œ 2ì¹¸ì„ ì°¨ì§€í•˜ë¯€ë¡œ ê³µë°± 2ì¹¸ìœ¼ë¡œ ëŒ€ì²´
 	}
 }
 
-/*clearµÈ lineÀ» Áö¿ì°í °»½Å */
+/*clearëœ lineì„ ì§€ìš°ê³  ê°±ì‹  */
 void UpdateLine(int line) {
 	ClearLine(line);
-	BoardArrDown(line);//clearµÈ lineÀ» »èÁ¦ÇÏ¹Ç·Î À­ ¶óÀÎµéÀ» ¾Æ·¡·Î ³»¸².
+	BoardArrDown(line);//clearëœ lineì„ ì‚­ì œí•˜ë¯€ë¡œ ìœ— ë¼ì¸ë“¤ì„ ì•„ëž˜ë¡œ ë‚´ë¦¼.
 	ShowUpdatedBoard();
 }
 
-/* 1~10±îÁö ÇàÀÇ ¿­ ÀüÃ¼°¡ 1·ÎµÇ¸é ÇàÀÇ ¡á»ç¶óÁü.»ç¶óÁö¸é UpdateLineÇÔ¼ö ½ÇÇà */
+/* 1~10ê¹Œì§€ í–‰ì˜ ì—´ ì „ì²´ê°€ 1ë¡œë˜ë©´ í–‰ì˜ â– ì‚¬ë¼ì§.ì‚¬ë¼ì§€ë©´ UpdateLineí•¨ìˆ˜ ì‹¤í–‰ */
 void CheckLine(void)
 {
-	int numOfFixedCell; //°íÁ¤µÈ ¡áÀÇ ¼ö
-	int x, y; //board ¹è¿­ÀÇ °¡·Î,¼¼·Î ÁÂÇ¥ index 
+	int numOfFixedCell; //ê³ ì •ëœ â– ì˜ ìˆ˜
+	int x, y; //board ë°°ì—´ì˜ ê°€ë¡œ,ì„¸ë¡œ ì¢Œí‘œ index 
 	int i;
-	//19ÇàºÎÅÍ ½ÃÀÛÇØ¼­ 1Çà±îÁö ¹Ýº¹
-	for (y = BOARD_HEIGHT - 1; y >= 1; y--) //¾Æ·¡¿¡¼­ À§·Î ÇÑÄ­¾¿ °Ë»ç y=1Àº º¸µåÆÇ
+	//19í–‰ë¶€í„° ì‹œìž‘í•´ì„œ 1í–‰ê¹Œì§€ ë°˜ë³µ
+	for (y = BOARD_HEIGHT - 1; y >= 1; y--) //ì•„ëž˜ì—ì„œ ìœ„ë¡œ í•œì¹¸ì”© ê²€ì‚¬ y=1ì€ ë³´ë“œíŒ
 	{
-		//ÇÑ Çà´ç 4¹ø ¹Ýº¹=>³»·Á¿Â ¶óÀÎÀ» °Ë»çÇÏ±â À§ÇØ.(ÇÑ¹ø¿¡ »ç¶óÁú ¼ö ÀÖ´Â ¶óÀÎ ¼ö´Â ÃÖ´ë 4¶óÀÎÀÌ¹Ç·Î)
+		//í•œ í–‰ë‹¹ 4ë²ˆ ë°˜ë³µ=>ë‚´ë ¤ì˜¨ ë¼ì¸ì„ ê²€ì‚¬í•˜ê¸° ìœ„í•´.(í•œë²ˆì— ì‚¬ë¼ì§ˆ ìˆ˜ ìžˆëŠ” ë¼ì¸ ìˆ˜ëŠ” ìµœëŒ€ 4ë¼ì¸ì´ë¯€ë¡œ)
 		for (iter = 0; iter < 4; iter++)
 		{
 			numOfFixedCell = 0;
-			//board[][x]¿¡ ¡áÀ» ÀÇ¹ÌÇÏ´Â °ª(1)ÀÌ ÀúÀåµÇ¾îÀÖ´Ù.
-			for (x = 1; x <= BOARD_WIDTH; x++)//x=0Àº º¸µåÆÇ
+			//board[][x]ì— â– ì„ ì˜ë¯¸í•˜ëŠ” ê°’(1)ì´ ì €ìž¥ë˜ì–´ìžˆë‹¤.
+			for (x = 1; x <= BOARD_WIDTH; x++)//x=0ì€ ë³´ë“œíŒ
 			{
-				//Çà±âÁØ
+				//í–‰ê¸°ì¤€
 				if (board[y][x] == 1)
 				{
 					numOfFixedCell++;
-					//Çà¿¡ ¡á 10°³°¡ ÀüºÎ Ã¤¿öÁ®ÀÖ´Ù¸é ÇàÀÇ ¡á ÀüºÎ »èÁ¦(line clear)
+					//í–‰ì— â–  10ê°œê°€ ì „ë¶€ ì±„ì›Œì ¸ìžˆë‹¤ë©´ í–‰ì˜ â–  ì „ë¶€ ì‚­ì œ(line clear)
 					if (numOfFixedCell == BOARD_WIDTH) {
 						UpdateLine(y);
-						CountScore();//line clear¸¶´Ù Á¡¼ö ¿Ã¸²
+						CountScore();//line clearë§ˆë‹¤ ì ìˆ˜ ì˜¬ë¦¼
 					}
 				}
 			}
@@ -490,9 +490,9 @@ void CheckLine(void)
 
 int GameOver(int blcokTpye)
 {
-	setCursor(CBLOCK_X, CBLOCK_Y); //ºí·Ï »ý¼º À§Ä¡ ¼³Á¤
+	setCursor(CBLOCK_X, CBLOCK_Y); //ë¸”ë¡ ìƒì„± ìœ„ì¹˜ ì„¤ì •
 	if (IsCollision(blcokTpye, 0, 0))
-		return 1; //°ÔÀÓ ³¡
+		return 1; //ê²Œìž„ ë
 	else
 		return 0;
 }
@@ -500,27 +500,27 @@ int GameOver(int blcokTpye)
 int GameWin(void)
 {
 	if (level == 10)
-		return 1; //°ÔÀÓ½Â
+		return 1; //ê²Œìž„ìŠ¹
 	else
 		return 0;
 }
 
-//Å°º¸µå ÀÔ·Â¿¡ µû¶ó ºí·Ï º¯È­
-void UpdateBlock(int kb, int* pblocktype)// kb: Å°º¸µå°ª, pblocktype = ºí·ÏÅ¸ÀÔÀÇ ÁÖ¼Ò
+//í‚¤ë³´ë“œ ìž…ë ¥ì— ë”°ë¼ ë¸”ë¡ ë³€í™”
+void UpdateBlock(int kb, int* pblocktype)// kb: í‚¤ë³´ë“œê°’, pblocktype = ë¸”ë¡íƒ€ìž…ì˜ ì£¼ì†Œ
 
 {
-	int prove; // Ãæµ¹°Ë»ç
-	int updateBlock = 0; //´ÙÀ½ ºí·Ï ÀúÀå
-	int blockType = *pblocktype; //ÇöÀç ºí·ÏÅ¸ÀÔ ÀúÀå
+	int prove; // ì¶©ëŒê²€ì‚¬
+	int updateBlock = 0; //ë‹¤ìŒ ë¸”ë¡ ì €ìž¥
+	int blockType = *pblocktype; //í˜„ìž¬ ë¸”ë¡íƒ€ìž… ì €ìž¥
 
 	//COORD cursor = getCursor();
 
-	switch (kb)    //switch-case±¸¹®À» ÀÌ¿ëÇÏ¿© (¿ÞÂÊ,¿À¸¥ÂÊ,À§,¾Æ·¡,½ºÆäÀÌ½º) Çàµ¿Áö½Ã
+	switch (kb)    //switch-caseêµ¬ë¬¸ì„ ì´ìš©í•˜ì—¬ (ì™¼ìª½,ì˜¤ë¥¸ìª½,ìœ„,ì•„ëž˜,ìŠ¤íŽ˜ì´ìŠ¤) í–‰ë™ì§€ì‹œ
 	{
-	case LEFT:        //Å°º¸µå °ªÀÌ ¿ÞÂÊ¹æÇâÅ° ÀÏ¶§
+	case LEFT:        //í‚¤ë³´ë“œ ê°’ì´ ì™¼ìª½ë°©í–¥í‚¤ ì¼ë•Œ
 
-		removeBlock(blockType, -2, 0); //ºí·Ï(ÀÜ»ó)À» Áö¿ì°í Ä¿¼­¸¦ xÃà -2Ä­ ¿òÁ÷ÀÓ(¿ÞÂÊÀ¸·Î 2Ä­(="¡á"ÇÑÄ­)¿òÁ÷ÀÓ)
-		showBlock(blockType);//ºí·ÏÀ» È­¸é¿¡ Ãâ·Â
+		removeBlock(blockType, -2, 0); //ë¸”ë¡(ìž”ìƒ)ì„ ì§€ìš°ê³  ì»¤ì„œë¥¼ xì¶• -2ì¹¸ ì›€ì§ìž„(ì™¼ìª½ìœ¼ë¡œ 2ì¹¸(="â– "í•œì¹¸)ì›€ì§ìž„)
+		showBlock(blockType);//ë¸”ë¡ì„ í™”ë©´ì— ì¶œë ¥
 		/*
 		prove=detect(blocktype, 2, 0);
 		if(prove==0){
@@ -531,9 +531,9 @@ void UpdateBlock(int kb, int* pblocktype)// kb: Å°º¸µå°ª, pblocktype = ºí·ÏÅ¸ÀÔÀ
 		*/
 
 		break;
-	case RIGHT:      //Å°º¸µå °ªÀÌ ¿À¸¥ÂÊ¹æÇâÅ° ÀÏ¶§
-		removeBlock(blockType, 2, 0); //ºí·Ï(ÀÜ»ó)À» Áö¿ì°í Ä¿¼­¸¦ xÃà +2Ä­ ¿òÁ÷ÀÓ(¿À¸¥ÂÊÀ¸·Î 2Ä­(="¡á"ÇÑÄ­)¿òÁ÷ÀÓ)
-		showBlock(blockType);//ºí·ÏÀ» È­¸é¿¡ Ãâ·Â
+	case RIGHT:      //í‚¤ë³´ë“œ ê°’ì´ ì˜¤ë¥¸ìª½ë°©í–¥í‚¤ ì¼ë•Œ
+		removeBlock(blockType, 2, 0); //ë¸”ë¡(ìž”ìƒ)ì„ ì§€ìš°ê³  ì»¤ì„œë¥¼ xì¶• +2ì¹¸ ì›€ì§ìž„(ì˜¤ë¥¸ìª½ìœ¼ë¡œ 2ì¹¸(="â– "í•œì¹¸)ì›€ì§ìž„)
+		showBlock(blockType);//ë¸”ë¡ì„ í™”ë©´ì— ì¶œë ¥
 
 
 		/*
@@ -546,49 +546,49 @@ void UpdateBlock(int kb, int* pblocktype)// kb: Å°º¸µå°ª, pblocktype = ºí·ÏÅ¸ÀÔÀ
 		*/
 
 		break;
-	case UP:       //Å°º¸µå °ªÀÌ À§ÂÊ ¹æÇâÅ° ÀÏ¶§
+	case UP:       //í‚¤ë³´ë“œ ê°’ì´ ìœ„ìª½ ë°©í–¥í‚¤ ì¼ë•Œ
 
-	   // Ã¹¼ö¸¦±¸ÇÑ´Ù.
-	   //gw: nextblock¿¡ ÇöÀç ºí·ÏÅ¸ÀÔÀÇ ±âº»Å¸ÀÔÀ» ÀúÀåÇÑ´Ù. ¿¹¸¦ µé¾î ¤¤ºí·ÏÀÇ Å¸ÀÔÀº ¤¤,¦¥,¤¡,¦£  ÃÑ 4°¡Áö°¡ ÀÖ°í k´Â ¤¤À» ÀúÀåÇÏ°Ô µÈ´Ù.(´Ù¸¥ ºí·Ïµµ ¸¶Âù°¡Áö)
+	   // ì²«ìˆ˜ë¥¼êµ¬í•œë‹¤.
+	   //gw: nextblockì— í˜„ìž¬ ë¸”ë¡íƒ€ìž…ì˜ ê¸°ë³¸íƒ€ìž…ì„ ì €ìž¥í•œë‹¤. ì˜ˆë¥¼ ë“¤ì–´ ã„´ë¸”ë¡ì˜ íƒ€ìž…ì€ ã„´,â”˜,ã„±,â”Œ  ì´ 4ê°€ì§€ê°€ ìžˆê³  këŠ” ã„´ì„ ì €ìž¥í•˜ê²Œ ëœë‹¤.(ë‹¤ë¥¸ ë¸”ë¡ë„ ë§ˆì°¬ê°€ì§€)
 
 		updateBlock = blockType / 4;
 		updateBlock *= 4;
-
+		/*
 		inintupdateblock(int* updateBlock,int bloackType){
 		   *updateBlock = blockType / 4;
 		   (*updateBlock) *= 4;
 		}
 
-
-		// ´ÙÀ½¼ö°¡ ³¡¼öÀÌÇÏÀÎ°¡? 
-		if ((blockType + 1) <= (updateBlock + 3)) //¿¹¸¦µé¾î ¤¤ºí·ÏÅ¸ÀÔ(¤¤,¦¥,¤¡,¦£ )Áß¿¡ k°¡ ¦£(¸¶Áö¸·Å¸ÀÔ)ÀÏ°æ¿ì Áõ°¡ÇÏ¸é ´Ù¸¥ ºí·ÏÀÌ µÇ¹Ç·Î ¾ïÁ¦½ÃÅ²´Ù.
+		*/
+		// ë‹¤ìŒìˆ˜ê°€ ëìˆ˜ì´í•˜ì¸ê°€? 
+		if ((blockType + 1) <= (updateBlock + 3)) //ì˜ˆë¥¼ë“¤ì–´ ã„´ë¸”ë¡íƒ€ìž…(ã„´,â”˜,ã„±,â”Œ )ì¤‘ì— kê°€ â”Œ(ë§ˆì§€ë§‰íƒ€ìž…)ì¼ê²½ìš° ì¦ê°€í•˜ë©´ ë‹¤ë¥¸ ë¸”ë¡ì´ ë˜ë¯€ë¡œ ì–µì œì‹œí‚¨ë‹¤.
 
 		{
-			updateBlock = blockType + 1;         //¸¶Áö¸· Å¸ÀÔÀÌ ¾Æ´Ò°æ¿ì ÇöÀç Å¸ÀÔÀÇ ´ÙÀ½ Å¸ÀÔÀ» k¿¡ ÀúÀåÇÑ´Ù.
+			updateBlock = blockType + 1;         //ë§ˆì§€ë§‰ íƒ€ìž…ì´ ì•„ë‹ê²½ìš° í˜„ìž¬ íƒ€ìž…ì˜ ë‹¤ìŒ íƒ€ìž…ì„ kì— ì €ìž¥í•œë‹¤.
 		}
 
-		prove = IsCollision(updateBlock, 0, 0); //=´ÙÀ½Å¸ÀÔ ºí·ÏÀÌ ´Ù¸¥ ºí·ÏÀÌ³ª º®¿¡ Ãæµ¹ÇÏ´ÂÁö °Ë»ç
+		prove = IsCollision(updateBlock, 0, 0); //=ë‹¤ìŒíƒ€ìž… ë¸”ë¡ì´ ë‹¤ë¥¸ ë¸”ë¡ì´ë‚˜ ë²½ì— ì¶©ëŒí•˜ëŠ”ì§€ ê²€ì‚¬
 
-		if (prove == 0)          //´ÙÀ½Å¸ÀÔ ºí·ÏÀÌ ´Ù¸¥ ºí·ÏÀÌ³ª º®¿¡ Ãæµ¿ÇÏÁö ¾Ê´Â´Ù¸é
+		if (prove == 0)          //ë‹¤ìŒíƒ€ìž… ë¸”ë¡ì´ ë‹¤ë¥¸ ë¸”ë¡ì´ë‚˜ ë²½ì— ì¶©ë™í•˜ì§€ ì•ŠëŠ”ë‹¤ë©´
 		{
-			removeBlock(blockType, 0, 0); //ºí·Ï(ÀÜ»ó)À» Áö¿ì°í Ä¿¼­´Â °íÁ¤         
-			showBlock(updateBlock);  //ºí·ÏÀ» È­¸é¿¡ Ãâ·Â
-			*pblocktype = updateBlock; //ºí·ÏÅ¸ÀÔÀ» ´ÙÀ½ºí·°À¸·Î ±³Ã¼
+			removeBlock(blockType, 0, 0); //ë¸”ë¡(ìž”ìƒ)ì„ ì§€ìš°ê³  ì»¤ì„œëŠ” ê³ ì •         
+			showBlock(updateBlock);  //ë¸”ë¡ì„ í™”ë©´ì— ì¶œë ¥
+			*pblocktype = updateBlock; //ë¸”ë¡íƒ€ìž…ì„ ë‹¤ìŒë¸”ëŸ­ìœ¼ë¡œ êµì²´
 			break;
 		}
 		break;
-	case DOWN:      //Å°º¸µå °ªÀÌ ¾Æ·¡ÂÊ ¹æÇâÅ° ÀÏ¶§
-		removeBlock(blockType, 0, 1);  //ºí·Ï(ÀÜ»ó)À» Áö¿ì°í Ä¿¼­¸¦ yÃà +2Ä­ ¿òÁ÷ÀÓ(¾Æ·¡ÂÊÀ¸·Î 2Ä­(="¡á"ÇÑÄ­)¿òÁ÷ÀÓ)
+	case DOWN:      //í‚¤ë³´ë“œ ê°’ì´ ì•„ëž˜ìª½ ë°©í–¥í‚¤ ì¼ë•Œ
+		removeBlock(blockType, 0, 1);  //ë¸”ë¡(ìž”ìƒ)ì„ ì§€ìš°ê³  ì»¤ì„œë¥¼ yì¶• +2ì¹¸ ì›€ì§ìž„(ì•„ëž˜ìª½ìœ¼ë¡œ 2ì¹¸(="â– "í•œì¹¸)ì›€ì§ìž„)
 		showBlock(blockType);
 		break;
-	case SPACE:     //Å°º¸µå °ªÀÌ ½ºÆäÀÌ½ºÅ° ÀÏ¶§
-		while (1)   //ºí·ÏÀÌ Ãæµ¹ÀÌ ¹ß»ýÇÒ¶§±îÁö ¹Ýº¹
+	case SPACE:     //í‚¤ë³´ë“œ ê°’ì´ ìŠ¤íŽ˜ì´ìŠ¤í‚¤ ì¼ë•Œ
+		while (1)   //ë¸”ë¡ì´ ì¶©ëŒì´ ë°œìƒí• ë•Œê¹Œì§€ ë°˜ë³µ
 		{
-			removeBlock(blockType, 0, 1);     //ºí·Ï(ÀÜ»ó)À» Áö¿ì°í Ä¿¼­¸¦ yÃà +1Ä­ ¿òÁ÷ÀÓ(¾Æ·¡ÂÊÀ¸·Î 1Ä­(="¡á"ÇÑÄ­)¿òÁ÷ÀÓ)
-			if (IsCollision(blockType, 0, 1) == 1) //ºí·°ÀÌ ´Ù¸¥ ºí·ÏÀÌ³ª º®¿¡ Ãæµ¹ÇÑ´Ù¸é
+			removeBlock(blockType, 0, 1);     //ë¸”ë¡(ìž”ìƒ)ì„ ì§€ìš°ê³  ì»¤ì„œë¥¼ yì¶• +1ì¹¸ ì›€ì§ìž„(ì•„ëž˜ìª½ìœ¼ë¡œ 1ì¹¸(="â– "í•œì¹¸)ì›€ì§ìž„)
+			if (IsCollision(blockType, 0, 1) == 1) //ë¸”ëŸ­ì´ ë‹¤ë¥¸ ë¸”ë¡ì´ë‚˜ ë²½ì— ì¶©ëŒí•œë‹¤ë©´
 			{
-				showBlock(blockType);         //ºí·ÏÀ» È­¸é¿¡ Ãâ·Â
-				UpdateBoardArr(blockType, 0, 0); //ºí·ÏÀ» °íÁ¤½ÃÅ´
+				showBlock(blockType);         //ë¸”ë¡ì„ í™”ë©´ì— ì¶œë ¥
+				UpdateBoardArr(blockType, 0, 0); //ë¸”ë¡ì„ ê³ ì •ì‹œí‚´
 				break;
 			}
 
@@ -603,31 +603,31 @@ void moveBlock(void)
 	int blockType = 0;
 	int kb;
 	int prove;
-	srand((unsigned int)time(NULL)); //srand() ÀÎÀÚ ±â¹Ý ³­¼ö¸¦ ÃÊ±âÈ­
+	srand((unsigned int)time(NULL)); //srand() ì¸ìž ê¸°ë°˜ ë‚œìˆ˜ë¥¼ ì´ˆê¸°í™”
 
-	/*°ÔÀÓ ½ÃÀÛ~³¡*/
+	/*ê²Œìž„ ì‹œìž‘~ë*/
 	while (!(GameWin() || GameOver(blockType)))
 	{
-		blockType = rand() % 7;//ºí·Ï ¸ð¾çÀ» ÀÓÀÇ·Î °áÁ¤ÇÏ±â À§ÇØ ÃßÃâÇÏ´Â ¼ö 
-		blockType = blockType * 4; //blockTypeÀº 0~6 »çÀÌÀÇ 7°³ÀÇ ³­¼ö, µµÇüÀÌ 7°³
+		blockType = rand() % 7;//ë¸”ë¡ ëª¨ì–‘ì„ ìž„ì˜ë¡œ ê²°ì •í•˜ê¸° ìœ„í•´ ì¶”ì¶œí•˜ëŠ” ìˆ˜ 
+		blockType = blockType * 4; //blockTypeì€ 0~6 ì‚¬ì´ì˜ 7ê°œì˜ ë‚œìˆ˜, ë„í˜•ì´ 7ê°œ
 
-		showBlock(blockType);//³­¼ö·Î ÃßÃâÇÑ blockTypeÀº ºí·ÏÀÇ Á¾·ù¸¦ ÀÇ¹Ì(block[blockType][4][4])
-		/*ºí·Ï ÇÑ°³ À§~¹Ø ÀÌµ¿*/
+		showBlock(blockType);//ë‚œìˆ˜ë¡œ ì¶”ì¶œí•œ blockTypeì€ ë¸”ë¡ì˜ ì¢…ë¥˜ë¥¼ ì˜ë¯¸(block[blockType][4][4])
+		/*ë¸”ë¡ í•œê°œ ìœ„~ë°‘ ì´ë™*/
 		while (1)
 		{
-			int isBlockFixed = 0;//ºí·Ï Ãæµ¹ ¹ß»ý ¿©ºÎ ¾Ë¸®´Â flag(´êÀ¸¸é 1)
+			int isBlockFixed = 0;//ë¸”ë¡ ì¶©ëŒ ë°œìƒ ì—¬ë¶€ ì•Œë¦¬ëŠ” flag(ë‹¿ìœ¼ë©´ 1)
 			int k = 0;
 
-			/*ºí·Ï ÇÏ³ª°¡ ¾Æ·¡·Î ¶³¾îÁö´Â °úÁ¤*/
+			/*ë¸”ë¡ í•˜ë‚˜ê°€ ì•„ëž˜ë¡œ ë–¨ì–´ì§€ëŠ” ê³¼ì •*/
 
-			while (!_kbhit() && isBlockFixed == 0)   //Å° ÀÔ·ÂÀÌ ¾ø´Â °æ¿ì
-				BlockFalling(blockType, &isBlockFixed);    //ºí·ÏÀÌ ¶³¾îÁö´Ù ´êÀ¸¸é isBlockFixed == 0ÀÌ µÈ´Ù.
+			while (!_kbhit() && isBlockFixed == 0)   //í‚¤ ìž…ë ¥ì´ ì—†ëŠ” ê²½ìš°
+				BlockFalling(blockType, &isBlockFixed);    //ë¸”ë¡ì´ ë–¨ì–´ì§€ë‹¤ ë‹¿ìœ¼ë©´ isBlockFixed == 0ì´ ëœë‹¤.
 
-			//ºí·ÏÀÌ ÀÚ¸®Àâ¾Ò´Ù¸é ÇÑ ºí·ÏÀÇ ¿©Á¤ÀÌ ³¡³­´Ù. while¹® Å»ÃâÇØ¼­ ´Ù½Ã ºí·Ï »ý¼ººÎÅÍ
+			//ë¸”ë¡ì´ ìžë¦¬ìž¡ì•˜ë‹¤ë©´ í•œ ë¸”ë¡ì˜ ì—¬ì •ì´ ëë‚œë‹¤. whileë¬¸ íƒˆì¶œí•´ì„œ ë‹¤ì‹œ ë¸”ë¡ ìƒì„±ë¶€í„°
 			if (isBlockFixed == 1)
 				break;
 
-			kb = _getch();//Å°º¸µå ÀÔ·Â°ª ¹Þ¾Æ¿Í kb¿¡ ÀúÀå
+			kb = _getch();//í‚¤ë³´ë“œ ìž…ë ¥ê°’ ë°›ì•„ì™€ kbì— ì €ìž¥
 			UpdateBlock(kb,&blocktype);
 
 	
@@ -638,10 +638,10 @@ void moveBlock(void)
 }
 int main()
 {
-	removeCursor(); //Ä¿¼­ ±ô¹ÚÀÌ Á¦°Å
-	setCursor(2, 1); //º¸µåÇ¥½Ã ½ÃÀÛÀ§Ä¡ ¼³Á¤
-	showBoard(); //º¸µå Ãâ·Â
+	removeCursor(); //ì»¤ì„œ ê¹œë°•ì´ ì œê±°
+	setCursor(2, 1); //ë³´ë“œí‘œì‹œ ì‹œìž‘ìœ„ì¹˜ ì„¤ì •
+	showBoard(); //ë³´ë“œ ì¶œë ¥
 	scoreLevel();
-	moveBlock(); //º¸µå Ãâ·Â ¿òÁ÷ÀÓ
+	moveBlock(); //ë³´ë“œ ì¶œë ¥ ì›€ì§ìž„
 	(void)getchar();
 }
