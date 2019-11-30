@@ -19,7 +19,11 @@
 int static score = 0; //게임점수
 int static level = 1; //게임레벨
 int static speed = 180;
-
+struct option {
+	int speed;
+	int level;
+	int score;
+};
 
 int board[BOARD_HEIGHT + 1][BOARD_WIDTH + 2] = { 0, };
 int block[][4][4] = { //cjl:4x4 2차원 배열로 도형표시-> 2차원 배열의 배열->3차원 배열
@@ -219,15 +223,14 @@ void RemoveCursor(void) //커서 깜박거림 제거
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &curInfo);
 }
 
-//커서의 좌표를 (2,1)로 초기화
-void SetCursor(int x, int y)
+void setCursor(int x, int y)
 {
 	COORD pos = { x,y };  //좌표 표시하는 구조체
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);//표준콘솔의 핸들값(ID)와 좌표 받아서 커서위치를 바꿈
 }
 
-//콘솔 화면 버퍼에 있는 커서의 좌표
-COORD GetCursor(void)
+
+COORD getCursor(void)
 {
 	COORD cur;
 	CONSOLE_SCREEN_BUFFER_INFO curInfo; //콘솔 화면 버퍼에 대한 정보
@@ -314,7 +317,7 @@ void ShowBoard(void)
 //콘솔 좌표 → 배열 좌표 환산 함수
 void TransPos(int* arrX, int* arrY) {
 
-	COORD pos = GetCursor(); //  현재 좌표로 구조체 초기화
+	COORD pos = getCursor(); //  현재 좌표로 구조체 초기화
 
 	*arrX += pos.X; // 현재 x좌표 더하기 
 	*arrY += pos.Y; // 현재 y좌표 더하기
@@ -356,7 +359,7 @@ int IsCollision(int blockType, int moveX, int moveY) // blockType 변수는 블록 모
 void ShowBlock(int rotation)
 {
 	int x, y;
-	COORD cursor = GetCursor();
+	COORD cursor = getCursor();
 	int prove;
 	prove = IsCollision(rotation, 0, 0);
 	if (prove == 0) {
@@ -365,19 +368,19 @@ void ShowBlock(int rotation)
 		{
 			for (x = 0; x < 4; x++)
 			{
-				SetCursor(cursor.X + (x * 2), cursor.Y + y);//x는 좁아서 2칸
+				setCursor(cursor.X + (x * 2), cursor.Y + y);//x는 좁아서 2칸
 				if (block[rotation][y][x] == 1)
 					printf("■");
 			}
 		}
-		SetCursor(cursor.X, cursor.Y);
+		setCursor(cursor.X, cursor.Y);
 	}
 }
 void removeBlock(int rotation, int move1, int move2)
 {
 	int pr;
 	int x, y;
-	COORD cursor = GetCursor();
+	COORD cursor = getCursor();
 	pr = IsCollision(rotation, move1, move2);
 	if (pr == 0)
 	{
@@ -385,19 +388,19 @@ void removeBlock(int rotation, int move1, int move2)
 		{
 			for (x = 0; x < 4; x++)
 			{
-				SetCursor(cursor.X + (x * 2), cursor.Y + y);
+				setCursor(cursor.X + (x * 2), cursor.Y + y);
 				if (block[rotation][y][x] == 1)
 					printf(" ");
 			}
 		}
-		SetCursor(cursor.X + move1, cursor.Y + move2);
+		setCursor(cursor.X + move1, cursor.Y + move2);
 	}
 }
 
 /*콘솔에 새로 고정된 블록의 위치를 BOARD 배열에 반영*/
 void UpdateBoardArr(int blockType) //blockType은 블록의 모양을 의미하는 변수
 {
-	COORD pos = GetCursor();//현재 커서의 좌표를 가져온다
+	COORD pos = getCursor();//현재 커서의 좌표를 가져온다
 
 	//콘솔의 좌표를 BOARD 배열의 값으로 대응시키기 위한 조작
 	int boardXpos = (pos.X - BOARD_X) / 2;
@@ -430,7 +433,7 @@ void ShowUpdatedBoard() {
 	{
 		for (x = 1; x <= BOARD_WIDTH; x++)
 		{
-			SetCursor(x * 2 + BOARD_X + 1, y + BOARD_Y);//board 배열의 값을 콘솔로 대응시키기 위한 조작,
+			setCursor(x * 2 + BOARD_X + 1, y + BOARD_Y);//board 배열의 값을 콘솔로 대응시키기 위한 조작,
 					//+1을 하는 이유: 블록의 x좌표가 홀수 단위로 설정되어있으므로, 홀수로 맞춰주기 위해.
 			if (board[y][x] == 1)
 				printf("■");
@@ -471,7 +474,7 @@ void ClearLine(int line)//column에는 삭제할 line의 y좌표가 전달됨.
 	for (x = 1; x < BOARD_WIDTH + 1; x++)
 	{
 		//board 배열의 값을 콘솔로 대응시키기 위해 board 배열의 index를 콘솔 좌표로 변환
-		SetCursor(x * 2 + BOARD_X, line + BOARD_Y);
+		setCursor(x * 2 + BOARD_X, line + BOARD_Y);
 		printf("  ");//블록이 x좌표 2칸을 차지하므로 공백 2칸으로 대체
 	}
 }
@@ -516,7 +519,7 @@ void CheckLine(void)
 
 int GameOver(int blcokTpye)
 {
-	SetCursor(CBLOCK_X, CBLOCK_Y); //블록 생성 위치 설정
+	setCursor(CBLOCK_X, CBLOCK_Y); //블록 생성 위치 설정
 	if (IsCollision(blcokTpye, 0, 0))
 		return 1; //게임 끝
 	else
@@ -539,7 +542,7 @@ void UpdateBlock(int kb, int* pblocktype)// kb: 키보드값, pblocktype = 블록타입�
 	int updateBlock = 0; //다음 블록 저장
 	int blockType = *pblocktype; //현재 블록타입 저장
 
-	//COORD cursor = GetCursor();
+	//COORD cursor = getCursor();
 
 	switch (kb)    //switch-case구문을 이용하여 (왼쪽,오른쪽,위,아래,스페이스) 행동지시
 	{
@@ -599,7 +602,7 @@ void UpdateBlock(int kb, int* pblocktype)// kb: 키보드값, pblocktype = 블록타입�
 	}
 }
 
-void moveBlock(void)
+void MoveBlock(void)
 {
 	int blockType = 0;
 	int kb;
@@ -634,15 +637,15 @@ void moveBlock(void)
 
 		}
 	}
-	SetCursor(35, 20);
+	setCursor(35, 20);
 	printf("GAME OVER");
 }
 int main()
 {
 	RemoveCursor(); //커서 깜박이 제거
-	SetCursor(2, 1); //보드표시 시작위치 설정
-	showBoard(); //보드 출력
-	scoreLevel();
-	moveBlock(); //보드 출력 움직임
+	setCursor(2, 1); //보드표시 시작위치 설정
+	ShowBoard(); //보드 출력
+	ScoreLevel();
+	MoveBlock(); //보드 출력 움직임
 	(void)getchar();
 }
